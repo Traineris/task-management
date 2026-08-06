@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 import { CustomError } from "@/utils/customError";
 import { StatusCodes } from "http-status-codes";
 import { logger } from "@/config/logger";
@@ -13,6 +14,19 @@ export const errorHandler = (
     return res.status(err.statusCode).json({
       success: false,
       message: err.message,
+    });
+  }
+
+  // Zod Validation Error (Input Validasi Client)
+  if (err instanceof ZodError) {
+    const issues = err.issues.map((issue) => ({
+      field: issue.path.join("."),
+      message: issue.message,
+    }));
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: "Validasi data gagal",
+      errors: issues,
     });
   }
 

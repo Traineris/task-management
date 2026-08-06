@@ -3,11 +3,13 @@ import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import * as authRepository from '../repositories/authRepository';
 import { RegisterInput, LoginInput } from '../validations/authValidation';
+import { CustomError } from '../utils/customError';
 import { env } from '../config/env.config';
 
 const generateToken = (userId: string, email: string): string => {
   return jwt.sign({ id: userId, email }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
 };
+
 export const register = async (input: RegisterInput) => {
   const existingUser = await authRepository.findUserByEmail(input.email);
   if (existingUser) {
@@ -20,17 +22,13 @@ export const register = async (input: RegisterInput) => {
     password: hashedPassword,
   });
 
-  const token = generateToken(newUser._id.toString(), newUser.email);
-
   return {
-    user: {
-      id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-    },
-    token,
+    id: newUser._id,
+    name: newUser.name,
+    email: newUser.email,
   };
 };
+
 
 export const login = async (input: LoginInput) => {
   const user = await authRepository.findUserByEmail(input.email);
