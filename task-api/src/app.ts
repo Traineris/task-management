@@ -7,6 +7,7 @@ import { errorHandler } from "./middlewares/errorHandler";
 import { env } from "./config/env.config";
 import { logger } from "./config/logger";
 
+import authRoutes from "./routes/authRoutes";
 import boardRoutes from "./routes/boardRoutes";
 
 const app = express();
@@ -36,13 +37,14 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
   res.json({ success: true, message: "Welcome to Task API" });
 });
 
 // Define Routes
 // app.use('/api/v1/tasks', taskRoutes);
 
+app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/boards", boardRoutes);
 
 // Handling Not Found
