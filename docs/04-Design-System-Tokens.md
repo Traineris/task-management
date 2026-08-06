@@ -2,7 +2,7 @@
 
 Dokumen ini mendefinisikan sistem token visual yang **wajib digunakan oleh AI saat membuat/mengedit komponen UI Frontend**.
 
-## 🎨 Color Tokens (Jira Palette)
+## 🎨 Color Tokens (Task System Palette)
 
 ```css
 /* Background & Layout */
@@ -22,7 +22,7 @@ Dokumen ini mendefinisikan sistem token visual yang **wajib digunakan oleh AI sa
 --color-danger: #FF5630;
 --color-warning: #FFAB00;
 
-/* Jira Issue Priorities */
+/* Task Issue Priorities */
 --priority-highest: #DE350B;
 --priority-high: #FF5630;
 --priority-medium: #FFAB00;

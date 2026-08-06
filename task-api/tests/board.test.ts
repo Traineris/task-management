@@ -20,7 +20,7 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
-describe("PENGUJIAN API BOARD (Jira Clone)", () => {
+describe("PENGUJIAN API BOARD (Task Management System)", () => {
   it("✅ SEHARUSNYA berhasil membuat Board baru jika data lengkap", async () => {
     const response = await request(app).post("/api/v1/boards").send({
       name: "Proyek Supertest",

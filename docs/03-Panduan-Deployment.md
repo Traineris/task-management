@@ -10,8 +10,8 @@ Simpan konfigurasi sensitif di `task-api/.env`:
 ```env
 NODE_ENV=production
 PORT=5000
-MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/jira-db
-CORS_ORIGIN=https://jira-client.vercel.app
+MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/task-db
+CORS_ORIGIN=https://task-client.vercel.app
 JWT_SECRET=super-secret-jwt-key
 ```
 
@@ -19,7 +19,7 @@ JWT_SECRET=super-secret-jwt-key
 Konfigurasi publik di `task-client/.env`:
 
 ```env
-VITE_API_BASE_URL=https://jira-api.onrender.com/api/v1
+VITE_API_BASE_URL=https://task-api.onrender.com/api/v1
 ```
 
 ## 🚀 Strategi Deployment

@@ -1,4 +1,4 @@
-# 06. Analisa Implementasi Enterprise (Jira-Clone) - V2
+# 06. Analisa Implementasi Enterprise (Task Management) - V2
 
 Berdasarkan *review* menyeluruh terhadap kode yang ada saat ini (`src/app.ts`, `src/server.ts`, arsitektur Board, dan konfigurasi lingkungan), berikut adalah hasil analisa kelayakan *Enterprise* dari proyek Anda.
 
@@ -25,7 +25,7 @@ Kabar baiknya, Anda telah berhasil membangun pondasi inti (Core Architecture) ya
 
 ## 🚧 Apa yang Masih Kurang & Perlu Ditingkatkan? (Next Steps)
 
-Pondasi (kerangka) gedungnya sudah sekokoh baja. Namun, untuk menjadikannya aplikasi manajamen proyek fungsional layaknya **Jira**, ini adalah fitur-fitur esensial yang masih **BELUM ADA** dan wajib Anda bangun selanjutnya:
+Pondasi (kerangka) gedungnya sudah sekokoh baja. Namun, untuk menjadikannya aplikasi manajamen proyek fungsional layaknya **Task Management System**, ini adalah fitur-fitur esensial yang masih **BELUM ADA** dan wajib Anda bangun selanjutnya:
 
 ### 1. Sistem Autentikasi JWT (Sangat Urgent)
 - **Kondisi Saat Ini**: Siapa saja (bahkan peretas) bisa membuat *Board* di Endpoint API Anda tanpa perlu melakukan *Login*.

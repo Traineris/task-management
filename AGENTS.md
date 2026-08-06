@@ -6,7 +6,7 @@
 
 Sebelum melakukan modifikasi kode atau membuat fitur baru, **baca dan ikuti dokumen panduan di direktori `docs/`**:
 
-1. 🎯 **Product Requirements**: [docs/00-PRD-Jira-Clone.md](file:///e:/GitHub/MERN/docs/00-PRD-Jira-Clone.md)
+1. 🎯 **Product Requirements**: [docs/00-PRD-Task-Management.md](file:///e:/GitHub/MERN/docs/00-PRD-Task-Management.md)
 2. 🏗️ **System Architecture**: [docs/01-Architecture-System.md](file:///e:/GitHub/MERN/docs/01-Architecture-System.md)
 3. ⛔ **Rules & Constraints**: [docs/02-AI-Rules-and-Constraints.md](file:///e:/GitHub/MERN/docs/02-AI-Rules-and-Constraints.md)
 4. 🗄️ **Database & API Schema**: [docs/03-Database-and-API-Schema.md](file:///e:/GitHub/MERN/docs/03-Database-and-API-Schema.md)

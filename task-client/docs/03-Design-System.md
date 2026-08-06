@@ -1,10 +1,10 @@
 # 03. Design System & Styling Conventions
 
-Dokumen ini mendefinisikan pedoman visual dan styling untuk antarmuka **Jira Clone** di `task-client`.
+Dokumen ini mendefinisikan pedoman visual dan styling untuk antarmuka **Task Management System** di `task-client`.
 
-## 🎨 Palette Warna (Jira Palette)
+## 🎨 Palette Warna (Task System Palette)
 
-Sistem menggunakan warna yang terinspirasi dari Jira Atlassian Design System:
+Sistem menggunakan warna yang terinspirasi dari modern enterprise design system:
 
 ```css
 :root {

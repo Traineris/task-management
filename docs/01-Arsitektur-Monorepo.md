@@ -27,7 +27,7 @@ Monorepo diorganisir menggunakan **NPM Workspaces** yang membagi aplikasi menjad
 ## 🔄 Alur Komunikasi
 
 1. **Client Interface (`task-client`)**:
-   - Menangani UI/UX, formulir interaktif, dan visualisasi board Jira.
+   - Menangani UI/UX, formulir interaktif, dan visualisasi Kanban Board.
    - Melakukan HTTP Request ke `task-api` via API Client (Axios / Fetch).
 
 2. **Backend API (`task-api`)**:

@@ -14,7 +14,7 @@ Dokumen ini mendefinisikan skema database Mongoose dan rancangan REST API.
 ### 2. Project Schema (`Project`)
 - `_id`: ObjectId
 - `name`: String (required)
-- `key`: String (required, e.g., "JIRA")
+- `key`: String (required, e.g., "TASK")
 - `description`: String
 - `leadId`: ObjectId (ref: User)
 - `members`: [ObjectId] (ref: User)

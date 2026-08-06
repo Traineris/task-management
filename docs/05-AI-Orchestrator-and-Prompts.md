@@ -38,6 +38,6 @@ Tolong buatkan komponen frontend React TS untuk [NAMA_KOMPONEN].
 
 Syarat:
 1. Simpan di folder src/features/[NAMA_FITUR]/ atau src/components/.
-2. Gunakan CSS Variables / Design Tokens Jira Palette dari docs/04-Design-System-Tokens.md.
+2. Gunakan CSS Variables / Design Tokens dari docs/04-Design-System-Tokens.md.
 3. Pisahkan antara UI Component dan Data Fetching Hook.
 ```
