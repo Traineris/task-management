@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development tsx watch --watch src src/server.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch src/server.ts",
     "start": "cross-env NODE_ENV=production tsx src/server.ts",
     "build": "tsup src/server.ts --format cjs --clean",
     "lint": "eslint src/**/*.ts",
