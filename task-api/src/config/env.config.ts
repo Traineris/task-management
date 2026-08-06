@@ -11,6 +11,8 @@ const envSchema = z.object({
   PORT: z.string().default("8000"),
   CLIENT_URL: z.string().default("*"),
   MONGO_URI: z.string().url(),
+  JWT_SECRET: z.string().min(1, "JWT_SECRET wajib diisi"),
+  JWT_EXPIRES_IN: z.string().default("1d"),
 });
 
 const parseEnv = () => {

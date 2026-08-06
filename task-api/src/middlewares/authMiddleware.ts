@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { CustomError } from '../utils/customError';
 
+import { env } from '../config/env.config';
+
 export interface AuthRequest extends Request {
   user?: {
     id: string;
@@ -18,10 +20,8 @@ export const authenticateToken = (req: AuthRequest, _res: Response, next: NextFu
     return next(new CustomError('Akses ditolak, token tidak ditemukan', StatusCodes.UNAUTHORIZED));
   }
 
-  const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-jwt-key';
-
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { id: string; email: string };
+    const decoded = jwt.verify(token, env.JWT_SECRET) as { id: string; email: string };
     req.user = decoded;
     next();
   } catch (error) {

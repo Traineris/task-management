@@ -3,16 +3,11 @@ import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import * as authRepository from '../repositories/authRepository';
 import { RegisterInput, LoginInput } from '../validations/authValidation';
-import { CustomError } from '../utils/customError';
 import { env } from '../config/env.config';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-jwt-key';
-const JWT_EXPIRES_IN = '7d';
-
 const generateToken = (userId: string, email: string): string => {
-  return jwt.sign({ id: userId, email }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+  return jwt.sign({ id: userId, email }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
 };
-
 export const register = async (input: RegisterInput) => {
   const existingUser = await authRepository.findUserByEmail(input.email);
   if (existingUser) {
@@ -59,3 +54,12 @@ export const login = async (input: LoginInput) => {
     token,
   };
 };
+
+export const getProfile = async (userId: string) => {
+  const user = await authRepository.findUserById(userId);
+  if (!user) {
+    throw new CustomError('User tidak ditemukan', StatusCodes.NOT_FOUND);
+  }
+  return user;
+};
+

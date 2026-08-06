@@ -25,3 +25,15 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+export const getProfile = asyncHandler(async (req: any, res: Response) => {
+  const userId = req.user?.id;
+  const user = await authService.getProfile(userId);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Profil pengguna berhasil diambil',
+    data: user,
+  });
+});
+
