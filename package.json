@@ -1,5 +1,5 @@
 {
-  "name": "jira-clone-monorepo",
+  "name": "task-management-monorepo",
   "private": true,
   "version": "1.0.0",
   "workspaces": [
@@ -8,6 +8,8 @@
   ],
   "scripts": {
     "dev": "concurrently -k -p \"[{name}]\" -c \"cyan.bold,yellow.bold\" -n \"API,CLIENT\" \"npm run dev --workspace=task-api\" \"npm run dev --workspace=task-client\"",
+    "dev:api": "npm run dev --workspace=task-api",
+    "dev:client": "npm run dev --workspace=task-client",
     "build:api": "npm run build --workspace=task-api",
     "build:client": "npm run build --workspace=task-client",
     "build": "npm run build:api && npm run build:client"

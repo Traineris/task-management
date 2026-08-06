@@ -1,7 +1,8 @@
-# 00. Product Requirement Document (PRD) - Jira Clone
+# 00. Product Requirement Document (PRD) - Task Management System
 
 ## 🎯 Visi & Tujuan Produk
-Membangun platform manajemen tugas dan kolaborasi tim interaktif bertema **Jira Clone** berbasis MERN Stack yang cepat, responsif, dan siap dikembangkan lebih lanjut (*scalable*).
+Membangun platform manajemen tugas dan kolaborasi tim interaktif berbasis MERN Stack yang cepat, responsif, dan siap dikembangkan lebih lanjut (*scalable*).
+
 
 ## 👥 Pengguna & Autentikasi
 - **Guest / Unauthenticated**: Dapat melihat landing page, melakukan registrasi, dan login.

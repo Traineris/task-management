@@ -1,6 +1,6 @@
 # 01. Arsitektur Monorepo: Overview & Pola Komunikasi
 
-Dokumen ini menjelaskan arsitektur tingkat tinggi dari **Monorepo MERN Stack (Jira Clone)** dan bagaimana setiap workspace saling berinteraksi.
+Dokumen ini menjelaskan arsitektur tingkat tinggi dari **Monorepo MERN Stack (Task Management System)** dan bagaimana setiap workspace saling berinteraksi.
 
 ## 🏗️ Struktur High-Level
 
