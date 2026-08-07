@@ -7,8 +7,13 @@ Dokumen ini mendefinisikan skema database Mongoose dan rancangan REST API.
 ### 1. User Schema (`User`)
 - `_id`: ObjectId
 - `name`: String (required)
-- `email`: String (required, unique)
-- `password`: String (required, hashed bcrypt)
+- `email`: String (required, unique, lowercase)
+- `password`: String (optional jika Auth Provider Google)
+- `avatar`: String (optional)
+- `authProvider`: Enum (`"local"`, `"google"`, default: `"local"`)
+- `isVerified`: Boolean (default: `false`)
+- `otpCode`: String (optional)
+- `otpExpiresAt`: Date (optional)
 - `createdAt`, `updatedAt`: Date
 
 ### 2. Project Schema (`Project`)
@@ -35,8 +40,12 @@ Dokumen ini mendefinisikan skema database Mongoose dan rancangan REST API.
 ## 📡 REST API Contracts Summary
 
 ```text
-POST   /api/v1/auth/register      --> Register User Baru
-POST   /api/v1/auth/login         --> Auth Login (Returns JWT)
+POST   /api/v1/auth/register      --> Register User Baru (Menghasilkan OTP)
+POST   /api/v1/auth/verify-otp    --> Verifikasi Kode OTP Email
+POST   /api/v1/auth/send-otp      --> Kirim Ulang Kode OTP Email
+POST   /api/v1/auth/login         --> Auth Login (Protected Rate Limit 3x/min, Returns JWT)
+POST   /api/v1/auth/google        --> Auth Google OAuth 2.0 (Returns JWT)
+GET    /api/v1/auth/me            --> Ambil Detail Profil User Terproteksi (Bearer Token)
 GET    /api/v1/projects           --> List Projects User
 POST   /api/v1/projects           --> Create Project Baru
 GET    /api/v1/tasks?projectId=x  --> List Tasks dalam Project

@@ -13,6 +13,13 @@ const envSchema = z.object({
   MONGO_URI: z.string().url(),
   JWT_SECRET: z.string().min(1, "JWT_SECRET wajib diisi"),
   JWT_EXPIRES_IN: z.string().default("1d"),
+  RESEND_API_KEY: z.string().optional(),
+  RESEND_FROM: z.string().default("onboarding@resend.dev"),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.string().optional(),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_FROM: z.string().optional(),
 });
 
 const parseEnv = () => {
