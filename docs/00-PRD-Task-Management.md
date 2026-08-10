@@ -9,10 +9,13 @@ Membangun platform manajemen tugas dan kolaborasi tim interaktif berbasis MERN S
 
 ## 🔑 Fitur Utama (Core MVP Scope)
 
-### 1. Autentikasi & User Management
-- Registrasi akun (Email, Name, Password).
-- Login berbasis JWT (JSON Web Token).
-- Profile user & session persistence.
+### 1. Autentikasi & User Management (Enterprise Grade)
+- Registrasi akun (Email, Name, Password) + Verifikasi Kode OTP Email (Resend API / Nodemailer).
+- Login berbasis JWT + Rate Limiting (Brute-Force Protection 3x/1 min).
+- Google OAuth 2.0 Single Sign-On (SSO).
+- Lupa Password & Reset Password berbasis OTP Email.
+- Update Profile (Nama & Avatar) & Ubah Password Akun.
+- Dual-Token Architecture (Access Token & Refresh Token) + Revoke Session / Logout.
 
 ### 2. Management Workspace & Project
 - Memasang workspace default untuk pengguna.

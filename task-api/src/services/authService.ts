@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import { StatusCodes } from 'http-status-codes';
 import * as authRepository from '../repositories/authRepository';
-import { RegisterInput, LoginInput, VerifyOtpInput, ResendOtpInput, GoogleAuthInput } from '../validations/authValidation';
+import { RegisterInput, LoginInput, VerifyOtpInput, ResendOtpInput, GoogleAuthInput, ForgotPasswordInput, ResetPasswordInput, UpdateProfileInput, ChangePasswordInput } from '../validations/authValidation';
 import { CustomError } from '../utils/customError';
 import { env } from '../config/env.config';
 import { sendOtpEmail } from './emailService';
@@ -168,6 +168,48 @@ export const googleAuth = async (input: GoogleAuthInput) => {
   };
 };
 
+export const forgotPassword = async (input: ForgotPasswordInput) => {
+  const email = input.email.toLowerCase().trim();
+  const user = await authRepository.findUserByEmail(email);
+
+  if (!user) {
+    throw new CustomError('User tidak ditemukan', StatusCodes.NOT_FOUND);
+  }
+
+  const { code, expiresAt } = generateOtp();
+  await authRepository.updateOtp(user._id.toString(), code, expiresAt);
+  await sendOtpEmail(email, code);
+
+  return {
+    message: 'Kode OTP reset password berhasil dikirim',
+    debugOtpCode: process.env.NODE_ENV === 'development' ? code : undefined,
+  };
+};
+
+export const resetPassword = async (input: ResetPasswordInput) => {
+  const email = input.email.toLowerCase().trim();
+  const user = await authRepository.findUserByEmail(email);
+
+  if (!user) {
+    throw new CustomError('User tidak ditemukan', StatusCodes.NOT_FOUND);
+  }
+
+  if (!user.otpCode || user.otpCode !== input.code) {
+    throw new CustomError('Kode OTP tidak valid', StatusCodes.BAD_REQUEST);
+  }
+
+  if (user.otpExpiresAt && user.otpExpiresAt < new Date()) {
+    throw new CustomError('Kode OTP sudah kadaluarsa', StatusCodes.BAD_REQUEST);
+  }
+
+  const hashedPassword = await bcrypt.hash(input.newPassword, 10);
+  await authRepository.updatePassword(user._id.toString(), hashedPassword);
+
+  return {
+    message: 'Password berhasil diperbarui. Silakan login kembali.',
+  };
+};
+
 export const getProfile = async (userId: string) => {
   const user = await authRepository.findUserById(userId);
   if (!user) {
@@ -175,3 +217,33 @@ export const getProfile = async (userId: string) => {
   }
   return user;
 };
+
+export const updateProfile = async (userId: string, input: UpdateProfileInput) => {
+  const user = await authRepository.findUserById(userId);
+  if (!user) {
+    throw new CustomError('User tidak ditemukan', StatusCodes.NOT_FOUND);
+  }
+
+  const updatedUser = await authRepository.updateUserProfile(userId, input);
+  return updatedUser;
+};
+
+export const changePassword = async (userId: string, input: ChangePasswordInput) => {
+  const user = await authRepository.findUserByEmail((await authRepository.findUserById(userId))?.email || '');
+  if (!user || !user.password) {
+    throw new CustomError('User tidak ditemukan atau menggunakan Google Auth', StatusCodes.BAD_REQUEST);
+  }
+
+  const isOldPasswordValid = await bcrypt.compare(input.oldPassword, user.password);
+  if (!isOldPasswordValid) {
+    throw new CustomError('Password lama tidak sesuai', StatusCodes.BAD_REQUEST);
+  }
+
+  const hashedNewPassword = await bcrypt.hash(input.newPassword, 10);
+  await authRepository.updatePassword(userId, hashedNewPassword);
+
+  return {
+    message: 'Password berhasil diubah',
+  };
+};
+

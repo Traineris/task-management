@@ -52,3 +52,19 @@ export const upsertGoogleUser = async (data: {
 
   return user;
 };
+
+export const updatePassword = async (userId: string, hashedPassword: string): Promise<void> => {
+  await UserModel.findByIdAndUpdate(userId, {
+    password: hashedPassword,
+    $unset: { otpCode: 1, otpExpiresAt: 1 },
+  });
+};
+
+export const updateUserProfile = async (
+  userId: string,
+  data: { name?: string; avatar?: string }
+): Promise<IUser | null> => {
+  return UserModel.findByIdAndUpdate(userId, data, { new: true }).select('-password -otpCode -otpExpiresAt');
+};
+
+

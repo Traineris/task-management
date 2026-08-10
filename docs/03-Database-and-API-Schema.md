@@ -40,16 +40,22 @@ Dokumen ini mendefinisikan skema database Mongoose dan rancangan REST API.
 ## 📡 REST API Contracts Summary
 
 ```text
-POST   /api/v1/auth/register      --> Register User Baru (Menghasilkan OTP)
-POST   /api/v1/auth/verify-otp    --> Verifikasi Kode OTP Email
-POST   /api/v1/auth/send-otp      --> Kirim Ulang Kode OTP Email
-POST   /api/v1/auth/login         --> Auth Login (Protected Rate Limit 3x/min, Returns JWT)
-POST   /api/v1/auth/google        --> Auth Google OAuth 2.0 (Returns JWT)
-GET    /api/v1/auth/me            --> Ambil Detail Profil User Terproteksi (Bearer Token)
-GET    /api/v1/projects           --> List Projects User
-POST   /api/v1/projects           --> Create Project Baru
-GET    /api/v1/tasks?projectId=x  --> List Tasks dalam Project
-POST   /api/v1/tasks              --> Create Task Baru
-PATCH  /api/v1/tasks/:id          --> Update Task (Status/Position/Title)
-DELETE /api/v1/tasks/:id          --> Delete Task
+POST   /api/v1/auth/register          --> Register User Baru (Menghasilkan OTP)
+POST   /api/v1/auth/verify-otp        --> Verifikasi Kode OTP Email
+POST   /api/v1/auth/send-otp          --> Kirim Ulang Kode OTP Email
+POST   /api/v1/auth/login             --> Auth Login (Protected Rate Limit 3x/min, Returns JWT)
+POST   /api/v1/auth/google            --> Auth Google OAuth 2.0 (Returns JWT)
+POST   /api/v1/auth/forgot-password   --> Permintaan Kode OTP Reset Password
+POST   /api/v1/auth/reset-password    --> Verifikasi OTP & Simpan Password Baru
+GET    /api/v1/auth/me                --> Ambil Detail Profil User Terproteksi (Bearer Token)
+PATCH  /api/v1/auth/profile           --> Update Profil User (Nama & Avatar)
+PATCH  /api/v1/auth/change-password   --> Ubah Password Akun (Verifikasi Password Lama)
+POST   /api/v1/auth/refresh-token     --> Perbarui JWT Access Token
+POST   /api/v1/auth/logout            --> Revoke Refresh Token Session
+GET    /api/v1/projects               --> List Projects User
+POST   /api/v1/projects               --> Create Project Baru
+GET    /api/v1/tasks?projectId=x      --> List Tasks dalam Project
+POST   /api/v1/tasks                  --> Create Task Baru
+PATCH  /api/v1/tasks/:id              --> Update Task (Status/Position/Title)
+DELETE /api/v1/tasks/:id              --> Delete Task
 ```

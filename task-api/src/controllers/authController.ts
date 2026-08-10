@@ -1,8 +1,56 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { asyncHandler } from '../utils/asyncHandler';
-import { registerSchema, loginSchema, verifyOtpSchema, resendOtpSchema, googleAuthSchema } from '../validations/authValidation';
+import { registerSchema, loginSchema, verifyOtpSchema, resendOtpSchema, googleAuthSchema, forgotPasswordSchema, resetPasswordSchema, updateProfileSchema, changePasswordSchema } from '../validations/authValidation';
+
+export const updateProfile = asyncHandler(async (req: any, res: Response) => {
+  const userId = req.user?.id;
+  const validatedData = updateProfileSchema.parse(req.body);
+  const updatedUser = await authService.updateProfile(userId, validatedData);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Profil pengguna berhasil diperbarui',
+    data: updatedUser,
+  });
+});
+
+export const changePassword = asyncHandler(async (req: any, res: Response) => {
+  const userId = req.user?.id;
+  const validatedData = changePasswordSchema.parse(req.body);
+  const result = await authService.changePassword(userId, validatedData);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Password berhasil diubah',
+    data: result,
+  });
+});
+
 import * as authService from '../services/authService';
+
+export const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
+  const validatedData = forgotPasswordSchema.parse(req.body);
+  const result = await authService.forgotPassword(validatedData);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Kode OTP reset password telah dikirim ke email',
+    data: result,
+  });
+});
+
+export const resetPassword = asyncHandler(async (req: Request, res: Response) => {
+  const validatedData = resetPasswordSchema.parse(req.body);
+  const result = await authService.resetPassword(validatedData);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Password berhasil diperbarui',
+    data: result,
+  });
+});
+
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const validatedData = registerSchema.parse(req.body);
