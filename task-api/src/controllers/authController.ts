@@ -117,3 +117,14 @@ export const getProfile = asyncHandler(async (req: any, res: Response) => {
     data: user,
   });
 });
+
+export const logout = asyncHandler(async (req: any, res: Response) => {
+  const userId = req.user?.id;
+  const result = await authService.logout(userId);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: result.message,
+  });
+});
+

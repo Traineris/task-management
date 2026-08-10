@@ -10,8 +10,8 @@ import { sendOtpEmail } from './emailService';
 
 const googleClient = new OAuth2Client();
 
-const generateToken = (userId: string, email: string): string => {
-  return jwt.sign({ id: userId, email }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
+const generateToken = (userId: string, email: string, tokenVersion: number = 0): string => {
+  return jwt.sign({ id: userId, email, tokenVersion }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
 };
 
 const generateOtp = (): { code: string; expiresAt: Date } => {
@@ -68,7 +68,7 @@ export const login = async (input: LoginInput) => {
     throw new CustomError('Akun Anda belum diverifikasi. Silakan verifikasi kode OTP terlebih dahulu.', StatusCodes.FORBIDDEN);
   }
 
-  const token = generateToken(user._id.toString(), user.email);
+  const token = generateToken(user._id.toString(), user.email, user.tokenVersion || 0);
 
   return {
     user: {
@@ -102,7 +102,7 @@ export const verifyOtp = async (input: VerifyOtpInput) => {
   }
 
   const updatedUser = await authRepository.setVerified(user._id.toString());
-  const token = generateToken(user._id.toString(), user.email);
+  const token = generateToken(user._id.toString(), user.email, user.tokenVersion || 0);
 
   return {
     user: updatedUser,
@@ -155,7 +155,7 @@ export const googleAuth = async (input: GoogleAuthInput) => {
     avatar: payload.picture,
   });
 
-  const token = generateToken(user._id.toString(), user.email);
+  const token = generateToken(user._id.toString(), user.email, user.tokenVersion || 0);
 
   return {
     user: {
@@ -246,4 +246,10 @@ export const changePassword = async (userId: string, input: ChangePasswordInput)
     message: 'Password berhasil diubah',
   };
 };
+
+export const logout = async (userId: string) => {
+  await authRepository.incrementTokenVersion(userId);
+  return { message: 'Logout berhasil. Sesi token telah dibatalkan.' };
+};
+
 

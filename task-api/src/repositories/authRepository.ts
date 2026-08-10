@@ -67,4 +67,9 @@ export const updateUserProfile = async (
   return UserModel.findByIdAndUpdate(userId, data, { new: true }).select('-password -otpCode -otpExpiresAt');
 };
 
+export const incrementTokenVersion = async (userId: string): Promise<void> => {
+  await UserModel.findByIdAndUpdate(userId, { $inc: { tokenVersion: 1 } });
+};
+
+
 
