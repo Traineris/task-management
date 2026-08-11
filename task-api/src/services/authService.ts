@@ -10,8 +10,8 @@ import { sendOtpEmail } from './emailService';
 
 const googleClient = new OAuth2Client();
 
-const generateToken = (userId: string, email: string, tokenVersion: number = 0): string => {
-  return jwt.sign({ id: userId, email, tokenVersion }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
+const generateToken = (userId: string, email: string, role: string = 'USER', tokenVersion: number = 0): string => {
+  return jwt.sign({ id: userId, email, role, tokenVersion }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
 };
 
 const generateOtp = (): { code: string; expiresAt: Date } => {
@@ -68,7 +68,7 @@ export const login = async (input: LoginInput) => {
     throw new CustomError('Akun Anda belum diverifikasi. Silakan verifikasi kode OTP terlebih dahulu.', StatusCodes.FORBIDDEN);
   }
 
-  const token = generateToken(user._id.toString(), user.email, user.tokenVersion || 0);
+  const token = generateToken(user._id.toString(), user.email, user.role || 'USER', user.tokenVersion || 0);
 
   return {
     user: {
@@ -76,6 +76,8 @@ export const login = async (input: LoginInput) => {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
+      jobTitle: user.jobTitle,
+      role: user.role,
     },
     token,
   };
@@ -102,7 +104,7 @@ export const verifyOtp = async (input: VerifyOtpInput) => {
   }
 
   const updatedUser = await authRepository.setVerified(user._id.toString());
-  const token = generateToken(user._id.toString(), user.email, user.tokenVersion || 0);
+  const token = generateToken(user._id.toString(), user.email, updatedUser?.role || 'USER', user.tokenVersion || 0);
 
   return {
     user: updatedUser,
@@ -155,7 +157,7 @@ export const googleAuth = async (input: GoogleAuthInput) => {
     avatar: payload.picture,
   });
 
-  const token = generateToken(user._id.toString(), user.email, user.tokenVersion || 0);
+  const token = generateToken(user._id.toString(), user.email, user.role || 'USER', user.tokenVersion || 0);
 
   return {
     user: {
@@ -163,6 +165,8 @@ export const googleAuth = async (input: GoogleAuthInput) => {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
+      jobTitle: user.jobTitle,
+      role: user.role,
     },
     token,
   };
@@ -251,5 +255,20 @@ export const logout = async (userId: string) => {
   await authRepository.incrementTokenVersion(userId);
   return { message: 'Logout berhasil. Sesi token telah dibatalkan.' };
 };
+
+export const getAllUsers = async () => {
+  return authRepository.findAllUsers();
+};
+
+export const updateUserRole = async (targetUserId: string, role: 'USER' | 'ADMIN') => {
+  const user = await authRepository.findUserById(targetUserId);
+  if (!user) {
+    throw new CustomError('Target user tidak ditemukan', StatusCodes.NOT_FOUND);
+  }
+
+  const updatedUser = await authRepository.updateUserRole(targetUserId, role);
+  return updatedUser;
+};
+
 
 

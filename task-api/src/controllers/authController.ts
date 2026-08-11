@@ -1,7 +1,29 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { asyncHandler } from '../utils/asyncHandler';
-import { registerSchema, loginSchema, verifyOtpSchema, resendOtpSchema, googleAuthSchema, forgotPasswordSchema, resetPasswordSchema, updateProfileSchema, changePasswordSchema } from '../validations/authValidation';
+import { registerSchema, loginSchema, verifyOtpSchema, resendOtpSchema, googleAuthSchema, forgotPasswordSchema, resetPasswordSchema, updateProfileSchema, changePasswordSchema, updateUserRoleSchema } from '../validations/authValidation';
+
+export const getAllUsers = asyncHandler(async (_req: Request, res: Response) => {
+  const users = await authService.getAllUsers();
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Daftar seluruh pengguna berhasil diambil',
+    data: users,
+  });
+});
+
+export const updateUserRole = asyncHandler(async (req: Request, res: Response) => {
+  const targetUserId = req.params.id as string;
+  const validatedData = updateUserRoleSchema.parse(req.body);
+  const updatedUser = await authService.updateUserRole(targetUserId, validatedData.role);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Role pengguna berhasil diperbarui',
+    data: updatedUser,
+  });
+});
+
 
 export const updateProfile = asyncHandler(async (req: any, res: Response) => {
   const userId = req.user?.id;

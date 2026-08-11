@@ -2,6 +2,7 @@ import { Router } from 'express';
 import * as authController from '../controllers/authController';
 import { authenticateToken } from '../middlewares/authMiddleware';
 import { authLimiter } from '../middlewares/authLimiter';
+import { authorizeRoles } from '../middlewares/roleMiddleware';
 
 const router = Router();
 
@@ -16,5 +17,9 @@ router.get('/me', authenticateToken, authController.getProfile);
 router.patch('/profile', authenticateToken, authController.updateProfile);
 router.patch('/change-password', authenticateToken, authController.changePassword);
 router.post('/logout', authenticateToken, authController.logout);
+
+// Admin Only Routes
+router.get('/users', authenticateToken, authorizeRoles('ADMIN'), authController.getAllUsers);
+router.patch('/users/:id/role', authenticateToken, authorizeRoles('ADMIN'), authController.updateUserRole);
 
 export default router;

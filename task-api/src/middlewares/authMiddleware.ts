@@ -9,6 +9,7 @@ export interface AuthRequest extends Request {
   user?: {
     id: string;
     email: string;
+    role: string;
     tokenVersion?: number;
   };
 }
@@ -22,14 +23,17 @@ export const authenticateToken = async (req: AuthRequest, _res: Response, next: 
   }
 
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET) as { id: string; email: string; tokenVersion?: number };
+    const decoded = jwt.verify(token, env.JWT_SECRET) as { id: string; email: string; role: string; tokenVersion?: number };
 
-    const user = await UserModel.findById(decoded.id).select('tokenVersion');
+    const user = await UserModel.findById(decoded.id).select('tokenVersion role');
     if (!user || (decoded.tokenVersion !== undefined && decoded.tokenVersion !== user.tokenVersion)) {
       return next(new CustomError('Sesi telah berakhir (logout), silakan login kembali', StatusCodes.UNAUTHORIZED));
     }
 
-    req.user = decoded;
+    req.user = {
+      ...decoded,
+      role: user.role || decoded.role || 'USER',
+    };
     next();
   } catch (error) {
     return next(new CustomError('Token tidak valid atau telah kadaluarsa', StatusCodes.FORBIDDEN));

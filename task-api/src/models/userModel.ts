@@ -5,6 +5,8 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   avatar?: string;
+  jobTitle?: string;
+  role: 'USER' | 'ADMIN';
   authProvider: 'local' | 'google';
   isVerified: boolean;
   otpCode?: string;
@@ -20,6 +22,8 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String },
     avatar: { type: String },
+    jobTitle: { type: String, trim: true },
+    role: { type: String, enum: ['USER', 'ADMIN'], default: 'USER' },
     authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
     isVerified: { type: Boolean, default: false },
     otpCode: { type: String },

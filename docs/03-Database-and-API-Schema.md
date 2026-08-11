@@ -10,6 +10,8 @@ Dokumen ini mendefinisikan skema database Mongoose dan rancangan REST API.
 - `email`: String (required, unique, lowercase)
 - `password`: String (optional jika Auth Provider Google)
 - `avatar`: String (optional)
+- `jobTitle`: String (optional, e.g. "Fullstack Developer")
+- `role`: Enum (`"USER"`, `"ADMIN"`, default: `"USER"`)
 - `authProvider`: Enum (`"local"`, `"google"`, default: `"local"`)
 - `isVerified`: Boolean (default: `false`)
 - `otpCode`: String (optional)
@@ -52,6 +54,8 @@ PATCH  /api/v1/auth/profile           --> Update Profil User (Nama & Avatar)
 PATCH  /api/v1/auth/change-password   --> Ubah Password Akun (Verifikasi Password Lama)
 POST   /api/v1/auth/refresh-token     --> Perbarui JWT Access Token
 POST   /api/v1/auth/logout            --> Revoke Refresh Token Session
+GET    /api/v1/auth/users             --> List Seluruh Pengguna Sistem (Admin Only)
+PATCH  /api/v1/auth/users/:id/role    --> Ubah Role Pengguna ke USER/ADMIN (Admin Only)
 GET    /api/v1/projects               --> List Projects User
 POST   /api/v1/projects               --> Create Project Baru
 GET    /api/v1/tasks?projectId=x      --> List Tasks dalam Project

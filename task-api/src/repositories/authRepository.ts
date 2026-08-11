@@ -62,7 +62,7 @@ export const updatePassword = async (userId: string, hashedPassword: string): Pr
 
 export const updateUserProfile = async (
   userId: string,
-  data: { name?: string; avatar?: string }
+  data: { name?: string; avatar?: string; jobTitle?: string; role?: 'USER' | 'ADMIN' }
 ): Promise<IUser | null> => {
   return UserModel.findByIdAndUpdate(userId, data, { new: true }).select('-password -otpCode -otpExpiresAt');
 };
@@ -70,6 +70,15 @@ export const updateUserProfile = async (
 export const incrementTokenVersion = async (userId: string): Promise<void> => {
   await UserModel.findByIdAndUpdate(userId, { $inc: { tokenVersion: 1 } });
 };
+
+export const findAllUsers = async (): Promise<IUser[]> => {
+  return UserModel.find().select('-password -otpCode -otpExpiresAt');
+};
+
+export const updateUserRole = async (userId: string, role: 'USER' | 'ADMIN'): Promise<IUser | null> => {
+  return UserModel.findByIdAndUpdate(userId, { role }, { new: true }).select('-password -otpCode -otpExpiresAt');
+};
+
 
 
 
