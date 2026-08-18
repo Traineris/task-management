@@ -34,7 +34,7 @@ export const sendOtpEmail = async (to: string, otpCode: string): Promise<boolean
   `;
 
   // 1. Opsi Utama: Gunakan Resend API jika API Key tersedia
-  if (resendClient) {
+  if (resendClient && process.env.NODE_ENV !== 'test') {
     try {
       const response = await resendClient.emails.send({
         from: env.RESEND_FROM || 'onboarding@resend.dev',

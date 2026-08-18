@@ -47,7 +47,7 @@ export const register = async (input: RegisterInput) => {
     name: newUser.name,
     email: newUser.email,
     isVerified: newUser.isVerified,
-    debugOtpCode: process.env.NODE_ENV === 'development' ? code : undefined,
+    debugOtpCode: (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? code : undefined,
   };
 };
 
@@ -132,7 +132,7 @@ export const sendOtp = async (input: ResendOtpInput) => {
 
   return {
     message: 'Kode OTP baru berhasil dikirim',
-    debugOtpCode: process.env.NODE_ENV === 'development' ? code : undefined,
+    debugOtpCode: (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? code : undefined,
   };
 };
 
