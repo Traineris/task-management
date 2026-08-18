@@ -10,6 +10,7 @@ import { logger } from "./config/logger";
 import authRoutes from "./routes/authRoutes";
 import boardRoutes from "./routes/boardRoutes";
 import projectRoutes from "./routes/projectRoutes";
+import taskRoutes from "./routes/taskRoutes";
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.get("/api/v1", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/boards", boardRoutes);
 app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/tasks", taskRoutes);
 
 // Handling Not Found
 app.use((req, res, next) => {

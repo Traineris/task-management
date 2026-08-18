@@ -58,8 +58,13 @@ GET    /api/v1/auth/users             --> List Seluruh Pengguna Sistem (Admin On
 PATCH  /api/v1/auth/users/:id/role    --> Ubah Role Pengguna ke USER/ADMIN (Admin Only)
 GET    /api/v1/projects               --> List Projects User
 POST   /api/v1/projects               --> Create Project Baru
-GET    /api/v1/tasks?projectId=x      --> List Tasks dalam Project
-POST   /api/v1/tasks                  --> Create Task Baru
-PATCH  /api/v1/tasks/:id              --> Update Task (Status/Position/Title)
-DELETE /api/v1/tasks/:id              --> Delete Task
+GET    /api/v1/projects/:id           --> Detail Project (Populate Lead & Members)
+PUT    /api/v1/projects/:id           --> Update Project (Lead/Admin Only)
+DELETE /api/v1/projects/:id           --> Delete Project (Lead/Admin Only)
+GET    /api/v1/tasks?projectId=x      --> List Tasks dalam Project (Sorted by position)
+POST   /api/v1/tasks                  --> Create Task Baru (Auto position calculation)
+GET    /api/v1/tasks/:id              --> Detail Task
+PATCH  /api/v1/tasks/:id              --> Update Task (Title, Status, Priority, Assignee)
+PATCH  /api/v1/tasks/:id/reorder      --> Reorder Task Kanban (Drag-and-Drop)
+DELETE /api/v1/tasks/:id              --> Delete Task (Reporter, Project Lead, or Admin)
 ```
