@@ -57,7 +57,23 @@ Dokumen ini mendefinisikan skema database Mongoose dan rancangan REST API.
 - `filename`: String (required)
 - `url`: String (required)
 - `fileType`: String (required)
-- `fileSize`: Number (required)
+### 7. Sprint Schema (`Sprint`)
+- `_id`: ObjectId
+- `projectId`: ObjectId (ref: Project, required)
+- `name`: String (required)
+- `startDate`, `endDate`: Date (optional)
+- `goal`: String (optional)
+- `status`: Enum (`"PLANNED"`, `"ACTIVE"`, `"COMPLETED"`, default: `"PLANNED"`)
+- `createdAt`, `updatedAt`: Date
+
+### 8. Notification Schema (`Notification`)
+- `_id`: ObjectId
+- `userId`: ObjectId (ref: User, required)
+- `title`: String (required)
+- `message`: String (required)
+- `type`: Enum (`"ASSIGNMENT"`, `"COMMENT"`, `"STATUS_CHANGE"`, `"SYSTEM"`)
+- `link`: String (optional)
+- `isRead`: Boolean (default: `false`)
 - `createdAt`: Date
 
 ---
@@ -73,7 +89,7 @@ POST   /api/v1/auth/google            --> Auth Google OAuth 2.0 (Returns JWT)
 POST   /api/v1/auth/forgot-password   --> Permintaan Kode OTP Reset Password
 POST   /api/v1/auth/reset-password    --> Verifikasi OTP & Simpan Password Baru
 GET    /api/v1/auth/me                --> Ambil Detail Profil User Terproteksi (Bearer Token)
-PATCH  /api/v1/auth/profile           --> Update Profil User (Nama & Avatar)
+PATCH  /api/v1/auth/profile           --> Update Profil User (Nama, Avatar, JobTitle, Role)
 PATCH  /api/v1/auth/change-password   --> Ubah Password Akun (Verifikasi Password Lama)
 POST   /api/v1/auth/refresh-token     --> Perbarui JWT Access Token
 POST   /api/v1/auth/logout            --> Revoke Refresh Token Session
@@ -87,7 +103,7 @@ DELETE /api/v1/projects/:id           --> Delete Project (Lead/Admin Only)
 GET    /api/v1/tasks?projectId=x      --> List Tasks dalam Project (Sorted by position)
 POST   /api/v1/tasks                  --> Create Task Baru (Auto position calculation)
 GET    /api/v1/tasks/:id              --> Detail Task
-PATCH  /api/v1/tasks/:id              --> Update Task (Title, Status, Priority, Assignee)
+PATCH  /api/v1/tasks/:id              --> Update Task (Title, Status, Priority, Assignee, Sprint, StoryPoints)
 PATCH  /api/v1/tasks/:id/reorder      --> Reorder Task Kanban (Drag-and-Drop)
 DELETE /api/v1/tasks/:id              --> Delete Task (Reporter, Project Lead, or Admin)
 GET    /api/v1/tasks/:taskId/comments --> List Komentar Task
@@ -97,4 +113,12 @@ GET    /api/v1/tasks/:taskId/activities --> List Riwayat Aktivitas Audit Trail T
 GET    /api/v1/tasks/:taskId/attachments --> List Lampiran File Task
 POST   /api/v1/tasks/:taskId/attachments --> Upload File Lampiran (Multer, Max 5MB)
 DELETE /api/v1/attachments/:id        --> Hapus Lampiran File (Uploader, Lead, or Admin)
+GET    /api/v1/sprints?projectId=x    --> List Sprint dalam Project
+POST   /api/v1/sprints                --> Buat Sprint Baru
+PATCH  /api/v1/sprints/:id            --> Update / Start / Complete Sprint
+DELETE /api/v1/sprints/:id            --> Hapus Sprint
+GET    /api/v1/notifications         --> List Notifikasi Pengguna
+PATCH  /api/v1/notifications/read-all --> Tandai Semua Notifikasi Dibaca
+PATCH  /api/v1/notifications/:id/read --> Tandai Satu Notifikasi Dibaca
+GET    /api/v1/projects/:projectId/analytics --> Ringkasan Metrik & Analitik Dashboard
 ```

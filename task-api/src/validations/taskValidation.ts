@@ -6,7 +6,12 @@ export const createTaskSchema = z.object({
   description: z.string().optional(),
   status: z.enum(['TODO', 'IN_PROGRESS', 'DONE']).optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'HIGHEST']).optional(),
-  assigneeId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'ID Assignee tidak valid').optional(),
+  issueType: z.enum(['STORY', 'TASK', 'BUG', 'EPIC']).optional(),
+  storyPoints: z.number().min(0).optional(),
+  sprintId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'ID Sprint tidak valid').nullable().optional(),
+  parentTaskId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'ID Parent Task tidak valid').nullable().optional(),
+  assigneeId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'ID Assignee tidak valid').nullable().optional(),
+  dueDate: z.string().datetime().optional(),
 });
 
 export const updateTaskSchema = z.object({
@@ -14,8 +19,13 @@ export const updateTaskSchema = z.object({
   description: z.string().optional(),
   status: z.enum(['TODO', 'IN_PROGRESS', 'DONE']).optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'HIGHEST']).optional(),
+  issueType: z.enum(['STORY', 'TASK', 'BUG', 'EPIC']).optional(),
+  storyPoints: z.number().min(0).optional(),
+  sprintId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'ID Sprint tidak valid').nullable().optional(),
+  parentTaskId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'ID Parent Task tidak valid').nullable().optional(),
   assigneeId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'ID Assignee tidak valid').nullable().optional(),
   position: z.number().optional(),
+  dueDate: z.string().datetime().nullable().optional(),
 });
 
 export const reorderTaskSchema = z.object({

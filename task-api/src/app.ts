@@ -15,6 +15,9 @@ import taskRoutes from "./routes/taskRoutes";
 import commentRoutes from "./routes/commentRoutes";
 import activityRoutes from "./routes/activityRoutes";
 import attachmentRoutes from "./routes/attachmentRoutes";
+import sprintRoutes from "./routes/sprintRoutes";
+import notificationRoutes from "./routes/notificationRoutes";
+import analyticsRoutes from "./routes/analyticsRoutes";
 import * as commentController from "./controllers/commentController";
 import * as attachmentController from "./controllers/attachmentController";
 import { authenticateToken } from "./middlewares/authMiddleware";
@@ -53,16 +56,19 @@ app.get("/api/v1", (req, res) => {
   res.json({ success: true, message: "Welcome to Task API" });
 });
 
-// Define Routes
+// Define Core Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/boards", boardRoutes);
 app.use("/api/v1/projects", projectRoutes);
 app.use("/api/v1/tasks", taskRoutes);
+app.use("/api/v1/sprints", sprintRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 
 // Sub-resource Routes for Task Comments, Activities, & Attachments
 app.use("/api/v1/tasks/:taskId/comments", commentRoutes);
 app.use("/api/v1/tasks/:taskId/activities", activityRoutes);
 app.use("/api/v1/tasks/:taskId/attachments", attachmentRoutes);
+app.use("/api/v1/projects/:projectId/analytics", analyticsRoutes);
 
 // Direct Delete Routes
 app.delete("/api/v1/comments/:id", authenticateToken as any, commentController.deleteComment as any);
