@@ -35,7 +35,30 @@ Dokumen ini mendefinisikan skema database Mongoose dan rancangan REST API.
 - `priority`: Enum (`"LOW"`, `"MEDIUM"`, `"HIGH"`, `"HIGHEST"`)
 - `assigneeId`: ObjectId (ref: User, optional)
 - `reporterId`: ObjectId (ref: User, required)
-- `position`: Number (untuk urutan drag-and-drop)
+### 4. Comment Schema (`Comment`)
+- `_id`: ObjectId
+- `taskId`: ObjectId (ref: Task, required)
+- `userId`: ObjectId (ref: User, required)
+- `content`: String (required)
+- `createdAt`, `updatedAt`: Date
+
+### 5. Activity Log Schema (`Activity`)
+- `_id`: ObjectId
+- `taskId`: ObjectId (ref: Task, required)
+- `userId`: ObjectId (ref: User, required)
+- `action`: String (required, e.g. "COMMENTED", "ATTACHMENT_UPLOADED")
+- `details`: String (required)
+- `createdAt`: Date
+
+### 6. Attachment Schema (`Attachment`)
+- `_id`: ObjectId
+- `taskId`: ObjectId (ref: Task, required)
+- `uploadedBy`: ObjectId (ref: User, required)
+- `filename`: String (required)
+- `url`: String (required)
+- `fileType`: String (required)
+- `fileSize`: Number (required)
+- `createdAt`: Date
 
 ---
 
@@ -67,4 +90,11 @@ GET    /api/v1/tasks/:id              --> Detail Task
 PATCH  /api/v1/tasks/:id              --> Update Task (Title, Status, Priority, Assignee)
 PATCH  /api/v1/tasks/:id/reorder      --> Reorder Task Kanban (Drag-and-Drop)
 DELETE /api/v1/tasks/:id              --> Delete Task (Reporter, Project Lead, or Admin)
+GET    /api/v1/tasks/:taskId/comments --> List Komentar Task
+POST   /api/v1/tasks/:taskId/comments --> Tambah Komentar Baru pada Task
+DELETE /api/v1/comments/:id           --> Hapus Komentar (Owner, Lead, or Admin)
+GET    /api/v1/tasks/:taskId/activities --> List Riwayat Aktivitas Audit Trail Task
+GET    /api/v1/tasks/:taskId/attachments --> List Lampiran File Task
+POST   /api/v1/tasks/:taskId/attachments --> Upload File Lampiran (Multer, Max 5MB)
+DELETE /api/v1/attachments/:id        --> Hapus Lampiran File (Uploader, Lead, or Admin)
 ```
