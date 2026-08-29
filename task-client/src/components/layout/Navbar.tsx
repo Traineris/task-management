@@ -15,9 +15,10 @@ import { CreateProjectModal } from '../../features/projects/CreateProjectModal';
 
 interface NavbarProps {
   onOpenCreateTaskModal: () => void;
+  onOpenCommandPalette?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenCreateTaskModal }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenCreateTaskModal, onOpenCommandPalette }) => {
   const { user, logout } = useAuth();
   const { projects, activeProject, setActiveProject } = useProject();
   const [isProjectDropdownOpen, setIsProjectDropdownOpen] = useState(false);
@@ -203,7 +204,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCreateTaskModal }) => {
             )}
           </div>
 
-          {/* Quick Create Task Button */}
+          {/* Quick Create Issue Button */}
           <Button
             size="sm"
             variant="primary"
@@ -211,8 +212,34 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCreateTaskModal }) => {
             onClick={onOpenCreateTaskModal}
             disabled={!activeProject}
           >
-            Create
+            Create Issue
           </Button>
+
+          {/* Quick Search / Command Palette Trigger */}
+          {onOpenCommandPalette && (
+            <button
+              onClick={onOpenCommandPalette}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: 'var(--bg-surface-hover)',
+                border: '1px solid var(--border-default)',
+                padding: '4px 10px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '12px',
+                color: 'var(--text-subtle)',
+                cursor: 'pointer',
+                transition: 'var(--transition-fast)',
+              }}
+              title="Cari navigasi & issue (Ctrl+K)"
+            >
+              <span>Cari...</span>
+              <kbd style={{ fontSize: '10px', fontWeight: 700, backgroundColor: '#FFFFFF', border: '1px solid var(--border-strong)', padding: '1px 5px', borderRadius: '3px', color: 'var(--text-body)' }}>
+                Ctrl K
+              </kbd>
+            </button>
+          )}
         </div>
 
         {/* Right: Notifications & User Menu */}

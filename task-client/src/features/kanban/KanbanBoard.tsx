@@ -172,12 +172,12 @@ export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskO
           <span>/</span>
           <span style={{ fontWeight: 600, color: 'var(--text-heading)' }}>{activeProject.name}</span>
           <span>/</span>
-          <span>Kanban Board</span>
+          <span>Active Board</span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h1 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>
-            Kanban Board
+          <h1 style={{ fontSize: '22px', fontWeight: 800, color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>
+            Active Board
           </h1>
 
           <Button
