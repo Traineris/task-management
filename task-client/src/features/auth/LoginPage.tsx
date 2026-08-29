@@ -51,7 +51,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
 
   return (
     <AuthLayout
-      title="Masuk ke Workspace"
+      title="Explore WorkFlow"
       subtitle="Gunakan akun terdaftar Anda untuk melanjutkan kolaborasi"
     >
       <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

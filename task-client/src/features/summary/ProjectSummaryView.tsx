@@ -14,6 +14,7 @@ import {
   Download,
   Flame,
 } from 'lucide-react';
+import { SummarySkeleton } from '../../components/ui/Skeleton';
 import { Button } from '../../components/ui/Button';
 
 export const ProjectSummaryView: React.FC<{ onNavigateToBoard: () => void }> = ({ onNavigateToBoard }) => {
@@ -85,11 +86,7 @@ export const ProjectSummaryView: React.FC<{ onNavigateToBoard: () => void }> = (
   }
 
   if (isLoading || !analytics) {
-    return (
-      <div style={{ padding: '32px', textAlign: 'center', color: 'var(--text-muted)' }}>
-        Memuat ringkasan proyek...
-      </div>
-    );
+    return <SummarySkeleton />;
   }
 
   const { overview, statusDistribution, priorityDistribution, issueTypeDistribution, activeSprint } = analytics;

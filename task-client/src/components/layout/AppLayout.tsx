@@ -8,6 +8,7 @@ import { TimelineView } from '../../features/timeline/TimelineView';
 import { CalendarView } from '../../features/calendar/CalendarView';
 import { ActivityHistoryView } from '../../features/history/ActivityHistoryView';
 import { ProjectSettings } from '../../features/projects/ProjectSettings';
+import { ProjectMembersModal } from '../../features/projects/ProjectMembersModal';
 import { CommandPalette } from '../ui/CommandPalette';
 import { useProject } from '../../context/ProjectContext';
 import { api } from '../../api/apiClient';
@@ -16,6 +17,7 @@ import type { Task } from '../../types';
 export const AppLayout: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('summary');
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
+  const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
   const { activeProject } = useProject();
@@ -67,6 +69,7 @@ export const AppLayout: React.FC = () => {
           onTabChange={setActiveTab}
           isCollapsed={isSidebarCollapsed}
           onToggleCollapse={handleToggleSidebar}
+          onOpenMembersModal={() => setIsMembersModalOpen(true)}
         />
 
         <main style={{ flex: 1, backgroundColor: 'var(--bg-app)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -88,6 +91,12 @@ export const AppLayout: React.FC = () => {
           {activeTab === 'settings' && <ProjectSettings />}
         </main>
       </div>
+
+      {/* Project Members & RBAC Modal */}
+      <ProjectMembersModal
+        isOpen={isMembersModalOpen}
+        onClose={() => setIsMembersModalOpen(false)}
+      />
 
       {/* Command Palette Modal */}
       <CommandPalette

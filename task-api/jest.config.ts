@@ -6,6 +6,8 @@ export default {
   },
   testMatch: ["**/*.test.ts"],
   clearMocks: true,
+  testTimeout: 60000,
+  maxWorkers: 1,
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",

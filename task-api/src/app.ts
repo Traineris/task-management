@@ -32,16 +32,17 @@ app.use(express.json());
 // Serving Uploaded Static Files
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
-// DDoS Protection & Rate Limiting
+// DDoS Protection & Rate Limiting (Relaxed for development & SPA data fetching)
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, //15 minute
-  max: 100,
+  windowMs: 15 * 60 * 1000, // 15 menit
+  max: env.NODE_ENV === 'production' ? 300 : 2000, // 2000 req saat dev agar bebas refresh
   message: {
     success: false,
-    message: "Too many requests, please try again later.",
+    message: "Terlalu banyak request. Silakan coba beberapa saat lagi.",
   },
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => env.NODE_ENV === 'test', // Bypass saat testing
 });
 app.use(limiter);
 

@@ -6,28 +6,14 @@ import { LoginPage } from './features/auth/LoginPage';
 import { RegisterPage } from './features/auth/RegisterPage';
 import { AppLayout } from './components/layout/AppLayout';
 
+import { LoadingScreen } from './components/ui/Spinner';
+
 const MainApp: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
   const [authView, setAuthView] = useState<'login' | 'register'>('login');
 
   if (isLoading) {
-    return (
-      <div
-        style={{
-          height: '100vh',
-          width: '100vw',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#F4F5F7',
-          fontSize: '14px',
-          fontWeight: 600,
-          color: 'var(--text-subtle)',
-        }}
-      >
-        Memuat WorkFlow Workspace...
-      </div>
-    );
+    return <LoadingScreen message="Memuat WorkFlow..." />;
   }
 
   if (!isAuthenticated) {

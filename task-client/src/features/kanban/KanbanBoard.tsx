@@ -11,6 +11,8 @@ import { Search, Plus, Layers, Filter, X } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Avatar } from '../../components/ui/Avatar';
 
+import { BoardSkeleton } from '../../components/ui/Skeleton';
+
 export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskOpen: (open: boolean) => void }> = ({
   isCreateTaskOpen,
   setIsCreateTaskOpen,
@@ -20,6 +22,7 @@ export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskO
   const { showToast } = useToast();
 
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAssignee, setSelectedAssignee] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<IssueType | ''>('');
@@ -32,6 +35,7 @@ export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskO
 
   const fetchTasks = useCallback(async () => {
     if (!activeProject) return;
+    setIsLoading(true);
     try {
       const res = await api.get<Task[]>(`/tasks?projectId=${activeProject._id}`);
       if (res.success && res.data) {
@@ -39,6 +43,8 @@ export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskO
       }
     } catch (err: any) {
       showToast(err.message || 'Gagal memuat task Kanban', 'error');
+    } finally {
+      setIsLoading(false);
     }
   }, [activeProject, showToast]);
 
@@ -155,6 +161,10 @@ export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskO
         </p>
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <BoardSkeleton />;
   }
 
   // List unique members for filter

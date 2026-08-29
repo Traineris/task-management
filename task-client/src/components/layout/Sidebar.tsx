@@ -20,6 +20,7 @@ interface SidebarProps {
   onTabChange: (tab: ActiveTab) => void;
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  onOpenMembersModal?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -27,6 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onTabChange,
   isCollapsed,
   onToggleCollapse,
+  onOpenMembersModal,
 }) => {
   const { activeProject } = useProject();
 
@@ -55,55 +57,84 @@ export const Sidebar: React.FC<SidebarProps> = ({
         position: 'relative',
       }}
     >
-      {/* Project Banner Header */}
+      {/* Project Banner Header with Members Button */}
       <div
         style={{
-          padding: isCollapsed ? '14px 12px' : '16px',
+          padding: isCollapsed ? '14px 12px' : '14px 16px',
           borderBottom: '1px solid var(--border-subtle)',
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
-          justifyContent: isCollapsed ? 'center' : 'flex-start',
+          justifyContent: isCollapsed ? 'center' : 'space-between',
         }}
       >
-        <div
-          style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: 'var(--radius-sm)',
-            background: 'linear-gradient(135deg, #0084FF 0%, #2563EB 50%, #7C3AED 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#FFFFFF',
-            fontWeight: 800,
-            fontSize: '12px',
-            letterSpacing: '0.04em',
-            boxShadow: '0 2px 4px rgba(37, 99, 235, 0.25)',
-            flexShrink: 0,
-          }}
-          title={activeProject ? activeProject.name : 'Project'}
-        >
-          {activeProject ? activeProject.key.substring(0, 4) : 'WRK'}
-        </div>
-        {!isCollapsed && (
-          <div style={{ overflow: 'hidden' }}>
-            <div
-              style={{
-                fontWeight: 700,
-                fontSize: '13px',
-                color: 'var(--text-heading)',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {activeProject ? activeProject.name : 'Pilih Project'}
-            </div>
-            <div style={{ fontSize: '11px', color: 'var(--text-subtle)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '1px' }}>
-              <span>Software Workspace</span>
-            </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', overflow: 'hidden' }}>
+          <div
+            onClick={onOpenMembersModal}
+            style={{
+              width: '34px',
+              height: '34px',
+              borderRadius: 'var(--radius-sm)',
+              background: 'linear-gradient(135deg, #0084FF 0%, #2563EB 50%, #7C3AED 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FFFFFF',
+              fontWeight: 800,
+              fontSize: '12px',
+              letterSpacing: '0.04em',
+              boxShadow: '0 2px 4px rgba(37, 99, 235, 0.25)',
+              flexShrink: 0,
+              cursor: 'pointer',
+            }}
+            title={activeProject ? `${activeProject.name} (Klik untuk Keanggotaan)` : 'Project'}
+          >
+            {activeProject ? activeProject.key.substring(0, 4) : 'WRK'}
           </div>
+          {!isCollapsed && (
+            <div style={{ overflow: 'hidden' }}>
+              <div
+                style={{
+                  fontWeight: 700,
+                  fontSize: '13px',
+                  color: 'var(--text-heading)',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                {activeProject ? activeProject.name : 'Pilih Project'}
+              </div>
+              <div style={{ fontSize: '11px', color: 'var(--text-subtle)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '1px' }}>
+                <span>Software Workspace</span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Keanggotaan Button on Header */}
+        {!isCollapsed && onOpenMembersModal && (
+          <button
+            onClick={onOpenMembersModal}
+            style={{
+              background: 'var(--color-primary-light)',
+              border: '1px solid var(--color-primary-border)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '4px 7px',
+              color: 'var(--color-primary)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '11px',
+              fontWeight: 700,
+              flexShrink: 0,
+              transition: 'var(--transition-fast)',
+            }}
+            title="Kelola Keanggotaan & Hak Akses Tim"
+          >
+            <Users size={12} />
+          </button>
         )}
       </div>
 
@@ -178,9 +209,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
         }}
       >
         {!isCollapsed && activeProject && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div
+            onClick={onOpenMembersModal}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              cursor: 'pointer',
+              padding: '4px 6px',
+              borderRadius: 'var(--radius-sm)',
+              transition: 'var(--transition-fast)',
+            }}
+            title="Kelola Keanggotaan Proyek"
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-surface-hover)')}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+          >
             <Users size={14} color="var(--color-primary)" />
-            <span>{activeProject.members.length + 1} Anggota</span>
+            <span style={{ fontWeight: 600, color: 'var(--text-heading)' }}>{activeProject.members.length + 1} Anggota</span>
           </div>
         )}
 

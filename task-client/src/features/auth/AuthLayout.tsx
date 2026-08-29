@@ -76,7 +76,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
                 WorkFlow
               </span>
               <div style={{ fontSize: '11px', color: '#DEEBFF', fontWeight: 600, letterSpacing: '0.06em' }}>
-                TASK AGILE WORKSPACE
+                TASK WORKSPACE
               </div>
             </div>
           </div>
