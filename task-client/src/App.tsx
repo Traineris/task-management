@@ -25,7 +25,7 @@ const MainApp: React.FC = () => {
           color: 'var(--text-subtle)',
         }}
       >
-        Memuat Task Management System...
+        Memuat WorkFlow Workspace...
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Layers,
   ChevronDown,
   Plus,
   LogOut,
@@ -44,25 +43,26 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCreateTaskModal }) => {
         {/* Left: Brand, Project Switcher & Quick Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-            <div
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+            <img
+              src="/web-logo.png"
+              alt="WorkFlow Logo"
               style={{
-                width: '28px',
-                height: '28px',
-                borderRadius: '4px',
-                backgroundColor: 'var(--color-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#FFFFFF',
-                boxShadow: '0 1px 3px rgba(0, 82, 204, 0.3)',
+                width: '30px',
+                height: '30px',
+                objectFit: 'contain',
+                borderRadius: '6px',
+                boxShadow: '0 1px 3px rgba(0, 82, 204, 0.2)',
               }}
-            >
-              <Layers size={16} />
+            />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ fontWeight: 800, fontSize: '16px', color: 'var(--text-heading)', letterSpacing: '-0.03em' }}>
+                WorkFlow
+              </span>
+              <span style={{ fontSize: '9px', fontWeight: 800, backgroundColor: '#DEEBFF', color: '#0747A6', padding: '1px 5px', borderRadius: '3px', letterSpacing: '0.05em' }}>
+                WORKSPACE
+              </span>
             </div>
-            <span style={{ fontWeight: 800, fontSize: '15px', color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>
-              Task Management
-            </span>
           </div>
 
           {/* Project Switcher Dropdown */}

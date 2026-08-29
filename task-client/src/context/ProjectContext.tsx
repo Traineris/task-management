@@ -25,6 +25,15 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const { isAuthenticated } = useAuth();
   const { showToast } = useToast();
 
+  const handleSetActiveProject = (project: Project | null) => {
+    setActiveProject(project);
+    if (project) {
+      localStorage.setItem('task_active_project', JSON.stringify(project));
+    } else {
+      localStorage.removeItem('task_active_project');
+    }
+  };
+
   const fetchProjects = useCallback(async () => {
     if (!isAuthenticated) return;
     setIsLoading(true);
@@ -32,14 +41,20 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const res = await api.get<Project[]>('/projects');
       if (res.success && res.data) {
         setProjects(res.data);
-        // Jika belum ada active project, set yang pertama
-        if (!activeProject && res.data.length > 0) {
+
+        // Validasi & Sinkronisasi activeProject dengan data DB terbaru
+        if (res.data.length === 0) {
+          handleSetActiveProject(null);
+        } else if (!activeProject) {
           handleSetActiveProject(res.data[0]);
-        } else if (activeProject) {
-          // Sync data active project terbaru
+        } else {
+          // Cari apakah active project di local storage masih ada di daftar project DB
           const current = res.data.find((p) => p._id === activeProject._id);
           if (current) {
             handleSetActiveProject(current);
+          } else {
+            // Jika ID project kadaluarsa (DB baru / di-reset), otomatis ganti ke project pertama yang valid
+            handleSetActiveProject(res.data[0]);
           }
         }
       }
@@ -49,15 +64,6 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setIsLoading(false);
     }
   }, [isAuthenticated, activeProject, showToast]);
-
-  const handleSetActiveProject = (project: Project | null) => {
-    setActiveProject(project);
-    if (project) {
-      localStorage.setItem('task_active_project', JSON.stringify(project));
-    } else {
-      localStorage.removeItem('task_active_project');
-    }
-  };
 
   const createProject = async (name: string, key: string, description?: string): Promise<Project | null> => {
     try {

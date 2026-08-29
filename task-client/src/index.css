@@ -1,97 +1,113 @@
 /* =========================================================
-   TASK MANAGEMENT SYSTEM - PREMIUM ATLASSIAN / JIRA DESIGN TOKENS
+   WORKFLOW WORKSPACE - DESIGN SYSTEM TOKENS
+   Extract & Harmonic Palette from Logo:
+   - Vibrant Cyan/Blue (#0084FF / #2563EB)
+   - Accent Violet/Purple (#7C3AED / #8B5CF6)
+   - Deep Midnight Slate (#0F172A)
    ========================================================= */
 
 :root {
   /* Surface & Background Colors */
-  --bg-app: #FAFBFC;
+  --bg-app: #F8FAFC;
   --bg-surface: #FFFFFF;
-  --bg-surface-hover: #F4F5F7;
-  --bg-surface-active: #EBECF0;
-  --bg-sidebar: #0747A6;
-  --bg-sidebar-nav: #05337A;
-  --bg-sidebar-hover: rgba(255, 255, 255, 0.12);
-  --bg-sidebar-active: rgba(255, 255, 255, 0.2);
-  --bg-column: #F4F5F7;
-  --bg-column-header: #EBECF0;
+  --bg-surface-hover: #F1F5F9;
+  --bg-surface-active: #E2E8F0;
+  
+  /* Sidebar */
+  --bg-sidebar: #0F172A;
+  --bg-sidebar-nav: #1E293B;
+  --bg-sidebar-hover: rgba(255, 255, 255, 0.08);
+  --bg-sidebar-active: rgba(37, 99, 235, 0.15);
+  
+  /* Columns */
+  --bg-column: #F1F5F9;
+  --bg-column-header: #E2E8F0;
   
   /* Borders */
-  --border-subtle: #EBECF0;
-  --border-default: #DFE1E6;
-  --border-strong: #C1C7D0;
-  --border-focus: #4C9AFF;
+  --border-subtle: #F1F5F9;
+  --border-default: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --border-focus: #2563EB;
 
   /* Typography Colors */
-  --text-heading: #172B4D;
-  --text-body: #253858;
-  --text-subtle: #5E6C84;
-  --text-muted: #8993A4;
+  --text-heading: #0F172A;
+  --text-body: #334155;
+  --text-subtle: #64748B;
+  --text-muted: #94A3B8;
   --text-inverse: #FFFFFF;
-  --text-link: #0052CC;
+  --text-link: #2563EB;
 
-  /* Brand & Status Colors */
-  --color-primary: #0052CC;
-  --color-primary-hover: #0747A6;
-  --color-primary-light: #DEEBFF;
-  --color-primary-border: #B3D4FF;
+  /* Brand Colors (Extracted directly from WorkFlow Logo) */
+  --color-primary: #2563EB;
+  --color-primary-hover: #1D4ED8;
+  --color-primary-light: #EEF2FF;
+  --color-primary-border: #C7D2FE;
   
-  --color-success: #36B37E;
-  --color-success-dark: #006644;
-  --color-success-light: #E3FCEF;
-  --color-success-border: #ABF5D1;
+  --color-accent-purple: #7C3AED;
+  --color-accent-purple-light: #F5F3FF;
+  --color-accent-cyan: #0084FF;
+  
+  /* Brand Gradient */
+  --gradient-workflow: linear-gradient(135deg, #0084FF 0%, #2563EB 50%, #7C3AED 100%);
+  --gradient-workflow-subtle: linear-gradient(135deg, rgba(0, 132, 255, 0.08) 0%, rgba(124, 58, 237, 0.08) 100%);
 
-  --color-danger: #FF5630;
-  --color-danger-dark: #BF2600;
-  --color-danger-light: #FFEBE6;
-  --color-danger-border: #FFBDAD;
+  /* Status Colors */
+  --color-success: #10B981;
+  --color-success-dark: #047857;
+  --color-success-light: #ECFDF5;
+  --color-success-border: #A7F3D0;
 
-  --color-warning: #FFAB00;
-  --color-warning-dark: #895A00;
-  --color-warning-light: #FFF0B3;
-  --color-warning-border: #FFE380;
+  --color-danger: #EF4444;
+  --color-danger-dark: #B91C1C;
+  --color-danger-light: #FEF2F2;
+  --color-danger-border: #FECACA;
 
-  --color-info: #6554C0;
-  --color-info-light: #EAE6FF;
+  --color-warning: #F59E0B;
+  --color-warning-dark: #B45309;
+  --color-warning-light: #FFFBEB;
+  --color-warning-border: #FDE68A;
 
-  /* Jira Issue Type Colors */
-  --type-story: #36B37E;
-  --type-story-bg: #E3FCEF;
-  --type-task: #4C9AFF;
-  --type-task-bg: #DEEBFF;
-  --type-bug: #FF5630;
-  --type-bug-bg: #FFEBE6;
-  --type-epic: #8777D9;
-  --type-epic-bg: #EAE6FF;
+  --color-info: #6366F1;
+  --color-info-light: #EEF2FF;
 
-  /* Jira Priorities */
-  --priority-highest: #DE350B;
-  --priority-high: #FF5630;
-  --priority-medium: #FFAB00;
-  --priority-low: #36B37E;
-  --priority-lowest: #4C9AFF;
+  /* Issue Type Colors (Coordinated with Logo) */
+  --type-story: #10B981;
+  --type-story-bg: #ECFDF5;
+  --type-task: #0084FF;
+  --type-task-bg: #E0F2FE;
+  --type-bug: #EF4444;
+  --type-bug-bg: #FEF2F2;
+  --type-epic: #7C3AED;
+  --type-epic-bg: #F5F3FF;
 
-  /* Elevation Shadows (Atlassian Design System Spec) */
-  --shadow-sm: 0 1px 1px rgba(9, 30, 66, 0.25), 0 0 1px rgba(9, 30, 66, 0.31);
-  --shadow-card: 0 1px 2px rgba(9, 30, 66, 0.2), 0 0 1px rgba(9, 30, 66, 0.25);
-  --shadow-card-hover: 0 4px 8px -2px rgba(9, 30, 66, 0.25), 0 0 1px rgba(9, 30, 66, 0.31);
-  --shadow-card-drag: 0 12px 24px -6px rgba(9, 30, 66, 0.3), 0 0 1px rgba(9, 30, 66, 0.3);
-  --shadow-md: 0 4px 8px -2px rgba(9, 30, 66, 0.18), 0 0 1px rgba(9, 30, 66, 0.25);
-  --shadow-lg: 0 8px 16px -4px rgba(9, 30, 66, 0.2), 0 0 1px rgba(9, 30, 66, 0.25);
-  --shadow-modal: 0 20px 32px -8px rgba(9, 30, 66, 0.35), 0 0 1px rgba(9, 30, 66, 0.31);
+  /* Priorities */
+  --priority-highest: #DC2626;
+  --priority-high: #F97316;
+  --priority-medium: #F59E0B;
+  --priority-low: #10B981;
+
+  /* Elevation Shadows (Modern SaaS Spec) */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
+  --shadow-card-hover: 0 4px 12px -2px rgba(37, 99, 235, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.06);
+  --shadow-card-drag: 0 16px 32px -8px rgba(37, 99, 235, 0.25), 0 4px 12px -2px rgba(15, 23, 42, 0.12);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -2px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.1);
+  --shadow-modal: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
 
   /* Radius */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-full: 9999px;
 
   /* Transitions */
   --transition-fast: all 0.12s ease-in-out;
-  --transition-normal: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+  --transition-normal: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Global Reset & Modern Typography */
+/* Global Reset & Typography */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -99,7 +115,7 @@
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-app);
   color: var(--text-body);
   font-size: 13px;
@@ -111,8 +127,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-heading);
-  font-weight: 600;
-  letter-spacing: -0.015em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /* Custom Sleek Scrollbar */
@@ -126,12 +142,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C1C7D0;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A5ADBA;
+  background: #94A3B8;
 }
 
 /* Animations */
@@ -150,11 +166,6 @@ h1, h2, h3, h4, h5, h6 {
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-@keyframes pulseGlow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
 .animate-fade-in {
   animation: fadeIn 0.18s cubic-bezier(0.2, 0, 0, 1) forwards;
 }
@@ -171,9 +182,4 @@ h1, h2, h3, h4, h5, h6 {
 ::selection {
   background-color: var(--color-primary-light);
   color: var(--color-primary);
-}
-
-/* Interactive Utility Classes */
-.btn-primary:active, .btn-secondary:active {
-  transform: scale(0.98);
 }

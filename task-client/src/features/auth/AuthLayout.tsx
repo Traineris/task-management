@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Layers,
   CheckCircle2,
   TrendingUp,
   MessageSquare,
@@ -31,7 +30,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
       <div
         style={{
           flex: 1.2,
-          background: 'linear-gradient(145deg, #0747A6 0%, #0052CC 45%, #091E42 100%)',
+          background: 'linear-gradient(145deg, #0084FF 0%, #2563EB 35%, #7C3AED 75%, #0F172A 100%)',
           color: '#FFFFFF',
           padding: '48px 56px',
           display: 'flex',
@@ -58,28 +57,26 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
 
         {/* Brand Header */}
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <img
+              src="/web-logo.png"
+              alt="WorkFlow Logo"
               style={{
-                width: '38px',
-                height: '38px',
+                width: '42px',
+                height: '42px',
+                objectFit: 'contain',
                 borderRadius: '8px',
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                backdropFilter: 'blur(8px)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
+                backgroundColor: '#FFFFFF',
+                padding: '3px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
               }}
-            >
-              <Layers size={22} color="#FFFFFF" />
-            </div>
+            />
             <div>
-              <span style={{ fontSize: '20px', fontWeight: 800, letterSpacing: '-0.02em' }}>
-                Task Management
+              <span style={{ fontSize: '22px', fontWeight: 800, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
+                WorkFlow
               </span>
-              <div style={{ fontSize: '11px', color: '#DEEBFF', fontWeight: 500, letterSpacing: '0.04em' }}>
-                ENTERPRISE WORKSPACE
+              <div style={{ fontSize: '11px', color: '#DEEBFF', fontWeight: 600, letterSpacing: '0.06em' }}>
+                TASK AGILE WORKSPACE
               </div>
             </div>
           </div>

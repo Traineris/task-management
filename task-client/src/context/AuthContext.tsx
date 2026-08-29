@@ -44,6 +44,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } finally {
       localStorage.removeItem('task_token');
       localStorage.removeItem('task_user');
+      localStorage.removeItem('task_active_project');
       setToken(null);
       setUser(null);
       showToast('Sesi telah diakhiri. Anda berhasil logout.', 'info');
