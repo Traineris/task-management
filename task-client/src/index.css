@@ -1,9 +1,10 @@
 /* =========================================================
    WORKFLOW WORKSPACE - DESIGN SYSTEM TOKENS
-   Extract & Harmonic Palette from Logo:
-   - Vibrant Cyan/Blue (#0084FF / #2563EB)
-   - Accent Violet/Purple (#7C3AED / #8B5CF6)
-   - Deep Midnight Slate (#0F172A)
+   Harmonic Palette:
+   - Deep Royal Indigo (#525EA7)
+   - Cerulean Sky Blue (#5FACD3)
+   - Warm Amber Gold   (#FFC349)
+   - Soft Ice Aqua     (#97DDE9)
    ========================================================= */
 
 :root {
@@ -14,10 +15,10 @@
   --bg-surface-active: #E2E8F0;
   
   /* Sidebar */
-  --bg-sidebar: #0F172A;
-  --bg-sidebar-nav: #1E293B;
-  --bg-sidebar-hover: rgba(255, 255, 255, 0.08);
-  --bg-sidebar-active: rgba(37, 99, 235, 0.15);
+  --bg-sidebar: #1E2342;
+  --bg-sidebar-nav: #282F57;
+  --bg-sidebar-hover: rgba(151, 221, 233, 0.1);
+  --bg-sidebar-active: rgba(95, 172, 211, 0.2);
   
   /* Columns */
   --bg-column: #F1F5F9;
@@ -27,29 +28,40 @@
   --border-subtle: #F1F5F9;
   --border-default: #E2E8F0;
   --border-strong: #CBD5E1;
-  --border-focus: #2563EB;
+  --border-focus: #525EA7;
 
   /* Typography Colors */
-  --text-heading: #0F172A;
+  --text-heading: #1E2342;
   --text-body: #334155;
   --text-subtle: #64748B;
   --text-muted: #94A3B8;
   --text-inverse: #FFFFFF;
-  --text-link: #2563EB;
+  --text-link: #525EA7;
 
-  /* Brand Colors (Extracted directly from WorkFlow Logo) */
-  --color-primary: #2563EB;
-  --color-primary-hover: #1D4ED8;
-  --color-primary-light: #EEF2FF;
-  --color-primary-border: #C7D2FE;
+  /* Brand Colors */
+  --color-primary: #525EA7;
+  --color-primary-hover: #434D8A;
+  --color-primary-light: #EEF0F9;
+  --color-primary-border: #C4CAE8;
   
-  --color-accent-purple: #7C3AED;
-  --color-accent-purple-light: #F5F3FF;
-  --color-accent-cyan: #0084FF;
+  --color-sky: #5FACD3;
+  --color-sky-hover: #4998BD;
+  --color-sky-light: #EFF8FC;
+  --color-sky-border: #BFE3F1;
+  
+  --color-amber: #FFC349;
+  --color-amber-dark: #D99C1A;
+  --color-amber-light: #FFF9ED;
+  --color-amber-border: #FFE4A0;
+  
+  --color-aqua: #97DDE9;
+  --color-aqua-light: #F2FAFC;
+  --color-aqua-border: #CBEFF5;
   
   /* Brand Gradient */
-  --gradient-workflow: linear-gradient(135deg, #0084FF 0%, #2563EB 50%, #7C3AED 100%);
-  --gradient-workflow-subtle: linear-gradient(135deg, rgba(0, 132, 255, 0.08) 0%, rgba(124, 58, 237, 0.08) 100%);
+  --gradient-workflow: linear-gradient(135deg, #5FACD3 0%, #525EA7 55%, #FFC349 100%);
+  --gradient-workflow-subtle: linear-gradient(135deg, rgba(95, 172, 211, 0.12) 0%, rgba(82, 94, 167, 0.1) 100%);
+  --gradient-auth: linear-gradient(145deg, #525EA7 0%, #5FACD3 45%, #97DDE9 80%, #FFC349 100%);
 
   /* Status Colors */
   --color-success: #10B981;
@@ -62,12 +74,12 @@
   --color-danger-light: #FEF2F2;
   --color-danger-border: #FECACA;
 
-  --color-warning: #F59E0B;
-  --color-warning-dark: #B45309;
-  --color-warning-light: #FFFBEB;
-  --color-warning-border: #FDE68A;
+  --color-warning: #FFC349;
+  --color-warning-dark: #D99C1A;
+  --color-warning-light: #FFF9ED;
+  --color-warning-border: #FFE4A0;
 
-  --color-info: #6366F1;
+  --color-info: #5FACD3;
   --color-info-light: #EEF2FF;
 
   /* Issue Type Colors (Coordinated with Logo) */
@@ -241,6 +253,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 .animate-stagger-4 {
   animation: staggerFade 0.25s 0.12s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(2deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 8s ease-in-out infinite;
 }
 
 /* Card Hover Lift & Elevation */

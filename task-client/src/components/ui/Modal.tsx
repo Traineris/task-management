@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { X } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -49,6 +48,7 @@ export const Modal: React.FC<ModalProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
         padding: '20px',
+        borderRadius: '20px',
       }}
       onClick={onClose}
     >
@@ -59,7 +59,6 @@ export const Modal: React.FC<ModalProps> = ({
           maxWidth,
           backgroundColor: '#FFFFFF',
           borderRadius: 'var(--radius-md)',
-          boxShadow: '0 20px 40px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05)',
           border: '1px solid var(--border-default)',
           display: 'flex',
           flexDirection: 'column',
@@ -88,21 +87,7 @@ export const Modal: React.FC<ModalProps> = ({
               </p>
             )}
           </div>
-          <button
-            onClick={onClose}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              color: 'var(--text-subtle)',
-              padding: '4px',
-              borderRadius: 'var(--radius-sm)',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <X size={18} />
-          </button>
+         
         </div>
 
         {/* Body */}

@@ -39,10 +39,10 @@ export const IssueTypeBadge: React.FC<IssueTypeBadgeProps> = ({
     },
     TASK: {
       label: 'Task',
-      color: '#2563EB',
-      bg: '#EFF6FF',
-      border: '#BFDBFE',
-      icon: <CheckSquare size={size} color="#2563EB" />,
+      color: '#5FACD3',
+      bg: '#EFF8FC',
+      border: '#BFE3F1',
+      icon: <CheckSquare size={size} color="#5FACD3" />,
     },
     BUG: {
       label: 'Bug',
@@ -53,10 +53,10 @@ export const IssueTypeBadge: React.FC<IssueTypeBadgeProps> = ({
     },
     EPIC: {
       label: 'Epic',
-      color: '#7C3AED',
-      bg: '#F5F3FF',
-      border: '#DDD6FE',
-      icon: <Zap size={size} color="#7C3AED" fill="#7C3AED" />,
+      color: '#525EA7',
+      bg: '#EEF0F9',
+      border: '#C4CAE8',
+      icon: <Zap size={size} color="#525EA7" fill="#525EA7" />,
     },
   };
 
@@ -138,10 +138,10 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({
     },
     MEDIUM: {
       label: 'Medium',
-      color: '#D97706',
-      bg: '#FFFBEB',
-      border: '#FEF3C7',
-      icon: <Equal size={size} color="#D97706" strokeWidth={2.8} />,
+      color: '#D99C1A',
+      bg: '#FFF9ED',
+      border: '#FFE4A0',
+      icon: <Equal size={size} color="#D99C1A" strokeWidth={2.8} />,
     },
     LOW: {
       label: 'Low',

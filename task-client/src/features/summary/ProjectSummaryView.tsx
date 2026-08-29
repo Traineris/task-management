@@ -227,14 +227,14 @@ export const ProjectSummaryView: React.FC<{ onNavigateToBoard: () => void }> = (
             <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-subtle)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               In Progress
             </span>
-            <div style={{ fontSize: '28px', fontWeight: 800, color: '#0084FF', marginTop: '4px' }}>
+            <div style={{ fontSize: '28px', fontWeight: 800, color: 'var(--color-sky)', marginTop: '4px' }}>
               {overview.inProgressTasks}
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
               Sedang aktif dikerjakan tim
             </div>
           </div>
-          <div style={{ width: '42px', height: '42px', borderRadius: '10px', backgroundColor: '#E0F2FE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0084FF' }}>
+          <div style={{ width: '42px', height: '42px', borderRadius: '10px', backgroundColor: 'var(--color-sky-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-sky)' }}>
             <Clock size={22} />
           </div>
         </div>
@@ -256,14 +256,14 @@ export const ProjectSummaryView: React.FC<{ onNavigateToBoard: () => void }> = (
             <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-subtle)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Velocity Progress
             </span>
-            <div style={{ fontSize: '28px', fontWeight: 800, color: 'var(--color-accent-purple)', marginTop: '4px' }}>
+            <div style={{ fontSize: '28px', fontWeight: 800, color: 'var(--color-primary)', marginTop: '4px' }}>
               {completedStoryPoints} <span style={{ fontSize: '15px', color: 'var(--text-muted)' }}>/ {totalStoryPoints} SP</span>
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>
               Poin terselesaikan
             </div>
           </div>
-          <div style={{ width: '42px', height: '42px', borderRadius: '10px', backgroundColor: 'var(--color-accent-purple-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-accent-purple)' }}>
+          <div style={{ width: '42px', height: '42px', borderRadius: '10px', backgroundColor: 'var(--color-primary-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-primary)' }}>
             <Flame size={22} />
           </div>
         </div>

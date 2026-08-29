@@ -45,17 +45,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCreateTaskModal, onOpenCom
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-            <img
-              src="/web-logo.png"
-              alt="WorkFlow Logo"
+            <div
               style={{
-                width: '30px',
-                height: '30px',
-                objectFit: 'contain',
-                borderRadius: '6px',
-                boxShadow: '0 1px 3px rgba(0, 82, 204, 0.2)',
+                width: '40px',
+                height: '40px',
+                backgroundColor: '#FFFFFF',
+                borderRadius: '8px',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.9)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-            />
+            >
+              <img
+                src="/web-logo.png"
+                alt="WorkFlow Logo"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ fontWeight: 800, fontSize: '16px', color: 'var(--text-heading)', letterSpacing: '-0.03em' }}>
                 WorkFlow
