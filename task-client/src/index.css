@@ -58,10 +58,9 @@
   --color-aqua-light: #F2FAFC;
   --color-aqua-border: #CBEFF5;
   
-  /* Brand Gradient */
-  --gradient-workflow: linear-gradient(135deg, #5FACD3 0%, #525EA7 55%, #FFC349 100%);
+  --gradient-workflow: linear-gradient(135deg, #5FACD3 0%, #525EA7 100%);
   --gradient-workflow-subtle: linear-gradient(135deg, rgba(95, 172, 211, 0.12) 0%, rgba(82, 94, 167, 0.1) 100%);
-  --gradient-auth: linear-gradient(145deg, #525EA7 0%, #5FACD3 45%, #97DDE9 80%, #FFC349 100%);
+  --gradient-auth: linear-gradient(135deg, #525EA7 0%, #78A4CB 100%);
 
   /* Status Colors */
   --color-success: #10B981;
@@ -281,6 +280,23 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-pulse-glow {
   animation: pulseGlow 8s ease-in-out infinite;
+}
+
+/* Grid undulating wave animation */
+@keyframes gridUndulation {
+  0% {
+    background-position: 0px 0px, 0px 0px;
+  }
+  50% {
+    background-position: 24px 12px, 12px 24px;
+  }
+  100% {
+    background-position: 48px 0px, 0px 48px;
+  }
+}
+
+.animate-grid-wave {
+  animation: gridUndulation 12s ease-in-out infinite alternate;
 }
 
 /* Card Hover Lift & Elevation */

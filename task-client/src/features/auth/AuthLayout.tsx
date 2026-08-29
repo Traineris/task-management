@@ -227,40 +227,78 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
     }
   }, [currentIndex, slides.length]);
 
-  const activeDotIndex = currentIndex % slides.length;  return (
+  const activeDotIndex = currentIndex % slides.length;
+
+  return (
     <div
       style={{
-        minHeight: '100vh',
+        height: '100vh',
+        maxHeight: '100vh',
         width: '100vw',
         display: 'flex',
         background: 'var(--gradient-auth)',
         position: 'relative',
-        overflowX: 'hidden',
+        overflow: 'hidden',
+        boxSizing: 'border-box',
       }}
     >
-      {/* Background Dot Matrix Pattern Across Whole Canvas */}
+      {/* Clearer Geometric Grid Matrix with Undulating Motion */}
       <div
+        className="animate-grid-wave"
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-          opacity: 0.5,
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.09) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+          maskImage: 'radial-gradient(ellipse 90% 85% at 50% 50%, #000 65%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 90% 85% at 50% 50%, #000 65%, transparent 100%)',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Ambient Glow Orbs in Background */}
+
+      {/* Dynamic Animated Glow Orbs in Background */}
+      <div
+        className="animate-float"
+        style={{
+          position: 'absolute',
+          top: '-15%',
+          right: '5%',
+          width: '520px',
+          height: '520px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(95, 172, 211, 0.35) 0%, transparent 70%)',
+          filter: 'blur(70px)',
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        className="animate-pulse-glow"
+        style={{
+          position: 'absolute',
+          bottom: '-12%',
+          left: '2%',
+          width: '500px',
+          height: '500px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(82, 94, 167, 0.45) 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+        }}
+      />
       <div
         style={{
           position: 'absolute',
-          top: '-10%',
-          right: '5%',
-          width: '450px',
-          height: '450px',
+          top: '35%',
+          right: '18%',
+          width: '320px',
+          height: '320px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(151, 221, 233, 0.25) 0%, transparent 70%)',
-          filter: 'blur(60px)',
+          background: 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+          filter: 'blur(50px)',
           pointerEvents: 'none',
         }}
       />
@@ -270,10 +308,12 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
         style={{
           flex: 1.15,
           color: '#FFFFFF',
-          padding: '44px 40px 44px 72px',
+          padding: '32px 36px 32px 64px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          height: '100%',
+          boxSizing: 'border-box',
           position: 'relative',
           zIndex: 2,
         }}
@@ -507,7 +547,9 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          padding: '40px 72px 40px 36px',
+          padding: '24px 64px 24px 32px',
+          height: '100%',
+          boxSizing: 'border-box',
           position: 'relative',
           zIndex: 2,
         }}
@@ -522,15 +564,16 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
             WebkitBackdropFilter: 'blur(20px)',
             borderRadius: '20px',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.8)',
-            padding: '38px 34px',
+            padding: '32px 30px',
+            boxSizing: 'border-box',
           }}
         >
           {/* Header */}
-          <div style={{ marginBottom: '24px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <h2 style={{ fontSize: '23px', fontWeight: 800, color: 'var(--text-heading)', letterSpacing: '-0.02em' }}>
               {title}
             </h2>
-            <p style={{ fontSize: '13.5px', color: 'var(--text-subtle)', marginTop: '4px', lineHeight: 1.4 }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-subtle)', marginTop: '4px', lineHeight: 1.4 }}>
               {subtitle}
             </p>
           </div>
