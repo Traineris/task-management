@@ -49,7 +49,7 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
-describe("PENGUJIAN MODUL ADVANCED JIRA (Sprint, Analytics, Notifications, Issue Types)", () => {
+describe("PENGUJIAN MODUL ADVANCED TASK (Sprint, Analytics, Notifications, Issue Types)", () => {
   it("✅ [Create Sprint] Seharusnya berhasil membuat Sprint baru (PLANNED)", async () => {
     const res = await request(app)
       .post("/api/v1/sprints")
