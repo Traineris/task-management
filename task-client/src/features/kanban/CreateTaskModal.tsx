@@ -6,6 +6,7 @@ import type { IssueType, TaskPriority, TaskStatus, Task } from '../../types';
 import { api } from '../../api/apiClient';
 import { useProject } from '../../context/ProjectContext';
 import { useToast } from '../../context/ToastContext';
+import { IssueTypeBadge, PriorityBadge } from '../../components/ui/Badge';
 
 interface CreateTaskModalProps {
   isOpen: boolean;
@@ -53,19 +54,22 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
         issueType,
         priority,
         status,
-        storyPoints: storyPoints ? Number(storyPoints) : undefined,
+        storyPoints: storyPoints ? Number(storyPoints) : 0,
         assigneeId: assigneeId || undefined,
       };
 
       const res = await api.post<Task>('/tasks', payload);
       if (res.success && res.data) {
-        showToast('Task baru berhasil dibuat!', 'success');
+        showToast('Issue berhasil dibuat!', 'success');
         onTaskCreated(res.data);
+        onClose();
+        // Reset Form
         setTitle('');
         setDescription('');
         setStoryPoints(undefined);
         setAssigneeId('');
-        onClose();
+        setIssueType('TASK');
+        setPriority('MEDIUM');
       }
     } catch (err: any) {
       showToast(err.message || 'Gagal membuat task', 'error');
@@ -82,59 +86,69 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       subtitle={`Project: ${activeProject?.name || ''} (${activeProject?.key || ''})`}
       maxWidth="640px"
     >
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {/* Issue Type & Priority Selectors Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-subtle)', textTransform: 'uppercase' }}>
-              Issue Type
-            </label>
-            <select
-              value={issueType}
-              onChange={(e) => setIssueType(e.target.value as IssueType)}
-              style={{
-                height: '36px',
-                padding: '0 10px',
-                backgroundColor: '#FAFBFC',
-                border: '2px solid var(--border-default)',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '13px',
-                fontWeight: 500,
-                color: 'var(--text-heading)',
-                outline: 'none',
-              }}
-            >
-              <option value="TASK">📘 Task</option>
-              <option value="STORY">📗 Story</option>
-              <option value="BUG">📕 Bug</option>
-              <option value="EPIC">🟪 Epic</option>
-            </select>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+        {/* Issue Type Selector Grid */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <label style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-subtle)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            Issue Type
+          </label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+            {(['TASK', 'STORY', 'BUG', 'EPIC'] as IssueType[]).map((type) => {
+              const isSelected = issueType === type;
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setIssueType(type)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px',
+                    padding: '8px 10px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: isSelected ? '2px solid var(--color-primary)' : '1px solid var(--border-default)',
+                    backgroundColor: isSelected ? 'var(--color-primary-light)' : '#FAFBFC',
+                    cursor: 'pointer',
+                    transition: 'var(--transition-fast)',
+                  }}
+                >
+                  <IssueTypeBadge issueType={type} showLabel size={13} />
+                </button>
+              );
+            })}
           </div>
+        </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <label style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-subtle)', textTransform: 'uppercase' }}>
-              Priority
-            </label>
-            <select
-              value={priority}
-              onChange={(e) => setPriority(e.target.value as TaskPriority)}
-              style={{
-                height: '36px',
-                padding: '0 10px',
-                backgroundColor: '#FAFBFC',
-                border: '2px solid var(--border-default)',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '13px',
-                fontWeight: 500,
-                color: 'var(--text-heading)',
-                outline: 'none',
-              }}
-            >
-              <option value="HIGHEST">🔴 Highest</option>
-              <option value="HIGH">🟠 High</option>
-              <option value="MEDIUM">🟡 Medium</option>
-              <option value="LOW">🟢 Low</option>
-            </select>
+        {/* Priority Selector Grid */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <label style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-subtle)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            Priority
+          </label>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+            {(['HIGHEST', 'HIGH', 'MEDIUM', 'LOW'] as TaskPriority[]).map((prio) => {
+              const isSelected = priority === prio;
+              return (
+                <button
+                  key={prio}
+                  type="button"
+                  onClick={() => setPriority(prio)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '8px 10px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: isSelected ? '2px solid var(--color-primary)' : '1px solid var(--border-default)',
+                    backgroundColor: isSelected ? 'var(--color-primary-light)' : '#FAFBFC',
+                    cursor: 'pointer',
+                    transition: 'var(--transition-fast)',
+                  }}
+                >
+                  <PriorityBadge priority={prio} showLabel size={13} />
+                </button>
+              );
+            })}
           </div>
         </div>
 

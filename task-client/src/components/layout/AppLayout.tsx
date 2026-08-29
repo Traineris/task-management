@@ -15,7 +15,17 @@ import { api } from '../../api/apiClient';
 import type { Task } from '../../types';
 
 export const AppLayout: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ActiveTab>('summary');
+  const [activeTab, setActiveTabState] = useState<ActiveTab>(() => {
+    const savedTab = localStorage.getItem('workflow_active_tab') as ActiveTab;
+    const validTabs: ActiveTab[] = ['summary', 'board', 'backlog', 'timeline', 'calendar', 'history', 'settings'];
+    return validTabs.includes(savedTab) ? savedTab : 'board';
+  });
+
+  const setActiveTab = (tab: ActiveTab) => {
+    setActiveTabState(tab);
+    localStorage.setItem('workflow_active_tab', tab);
+  };
+
   const [isCreateTaskOpen, setIsCreateTaskOpen] = useState(false);
   const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -73,22 +83,24 @@ export const AppLayout: React.FC = () => {
         />
 
         <main style={{ flex: 1, backgroundColor: 'var(--bg-app)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          {activeTab === 'summary' && (
-            <ProjectSummaryView onNavigateToBoard={() => setActiveTab('board')} />
-          )}
-          {activeTab === 'board' && (
-            <KanbanBoard
-              isCreateTaskOpen={isCreateTaskOpen}
-              setIsCreateTaskOpen={setIsCreateTaskOpen}
-            />
-          )}
-          {activeTab === 'backlog' && <BacklogView />}
-          {activeTab === 'timeline' && <TimelineView />}
-          {activeTab === 'calendar' && (
-            <CalendarView onOpenCreateIssue={() => setIsCreateTaskOpen(true)} />
-          )}
-          {activeTab === 'history' && <ActivityHistoryView />}
-          {activeTab === 'settings' && <ProjectSettings />}
+          <div key={activeTab} className="animate-page-enter" style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+            {activeTab === 'summary' && (
+              <ProjectSummaryView onNavigateToBoard={() => setActiveTab('board')} />
+            )}
+            {activeTab === 'board' && (
+              <KanbanBoard
+                isCreateTaskOpen={isCreateTaskOpen}
+                setIsCreateTaskOpen={setIsCreateTaskOpen}
+              />
+            )}
+            {activeTab === 'backlog' && <BacklogView />}
+            {activeTab === 'timeline' && <TimelineView />}
+            {activeTab === 'calendar' && (
+              <CalendarView onOpenCreateIssue={() => setIsCreateTaskOpen(true)} />
+            )}
+            {activeTab === 'history' && <ActivityHistoryView />}
+            {activeTab === 'settings' && <ProjectSettings />}
+          </div>
         </main>
       </div>
 

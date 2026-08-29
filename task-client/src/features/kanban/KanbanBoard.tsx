@@ -390,38 +390,44 @@ export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskO
           alignItems: 'flex-start',
         }}
       >
-        <KanbanColumn
-          status="TODO"
-          title="TO DO"
-          tasks={todoTasks}
-          projectKey={activeProject.key}
-          onTaskClick={(t) => setSelectedTask(t)}
-          onQuickAddTask={handleQuickAdd}
-          onDragStart={handleDragStart}
-          onDropTask={handleDropTask}
-        />
+        <div className="animate-stagger-1" style={{ flex: 1, minWidth: '280px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <KanbanColumn
+            status="TODO"
+            title="TO DO"
+            tasks={todoTasks}
+            projectKey={activeProject.key}
+            onTaskClick={(t) => setSelectedTask(t)}
+            onQuickAddTask={handleQuickAdd}
+            onDragStart={handleDragStart}
+            onDropTask={handleDropTask}
+          />
+        </div>
 
-        <KanbanColumn
-          status="IN_PROGRESS"
-          title="IN PROGRESS"
-          tasks={inProgressTasks}
-          projectKey={activeProject.key}
-          onTaskClick={(t) => setSelectedTask(t)}
-          onQuickAddTask={handleQuickAdd}
-          onDragStart={handleDragStart}
-          onDropTask={handleDropTask}
-        />
+        <div className="animate-stagger-2" style={{ flex: 1, minWidth: '280px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <KanbanColumn
+            status="IN_PROGRESS"
+            title="IN PROGRESS"
+            tasks={inProgressTasks}
+            projectKey={activeProject.key}
+            onTaskClick={(t) => setSelectedTask(t)}
+            onQuickAddTask={handleQuickAdd}
+            onDragStart={handleDragStart}
+            onDropTask={handleDropTask}
+          />
+        </div>
 
-        <KanbanColumn
-          status="DONE"
-          title="DONE"
-          tasks={doneTasks}
-          projectKey={activeProject.key}
-          onTaskClick={(t) => setSelectedTask(t)}
-          onQuickAddTask={handleQuickAdd}
-          onDragStart={handleDragStart}
-          onDropTask={handleDropTask}
-        />
+        <div className="animate-stagger-3" style={{ flex: 1, minWidth: '280px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <KanbanColumn
+            status="DONE"
+            title="DONE"
+            tasks={doneTasks}
+            projectKey={activeProject.key}
+            onTaskClick={(t) => setSelectedTask(t)}
+            onQuickAddTask={handleQuickAdd}
+            onDragStart={handleDragStart}
+            onDropTask={handleDropTask}
+          />
+        </div>
       </div>
 
       {/* Modals */}

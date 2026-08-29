@@ -198,6 +198,66 @@ h1, h2, h3, h4, h5, h6 {
   animation: shimmer 1.5s infinite;
 }
 
+/* Enterprise Animations & Micro-Interactions */
+@keyframes enterPage {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.996);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes staggerFade {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSubtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-page-enter {
+  animation: enterPage 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-stagger-1 {
+  animation: staggerFade 0.25s 0.03s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-stagger-2 {
+  animation: staggerFade 0.25s 0.06s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-stagger-3 {
+  animation: staggerFade 0.25s 0.09s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-stagger-4 {
+  animation: staggerFade 0.25s 0.12s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Card Hover Lift & Elevation */
+.card-hover-lift {
+  transition: transform 0.18s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.18s cubic-bezier(0.2, 0, 0, 1), border-color 0.18s ease;
+}
+.card-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+/* Button & Pill Tap Feedback */
+button:not(:disabled):active {
+  transform: scale(0.98);
+  transition: transform 0.08s ease;
+}
+
 /* Selection */
 ::selection {
   background-color: var(--color-primary-light);

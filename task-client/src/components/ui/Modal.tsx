@@ -42,12 +42,8 @@ export const Modal: React.FC<ModalProps> = ({
     <div
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(9, 30, 66, 0.54)',
-        backdropFilter: 'blur(2px)',
+        inset: 0,
+        backgroundColor: 'rgba(15, 23, 42, 0.35)',
         zIndex: 999,
         display: 'flex',
         alignItems: 'center',
@@ -57,13 +53,14 @@ export const Modal: React.FC<ModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="animate-fade-in"
+        className="animate-modal"
         style={{
           width: '100%',
           maxWidth,
           backgroundColor: '#FFFFFF',
           borderRadius: 'var(--radius-md)',
-          boxShadow: 'var(--shadow-lg)',
+          boxShadow: '0 20px 40px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05)',
+          border: '1px solid var(--border-default)',
           display: 'flex',
           flexDirection: 'column',
           maxHeight: '90vh',

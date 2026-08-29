@@ -16,6 +16,7 @@ import {
   Upload,
   FileText,
 } from 'lucide-react';
+import { IssueTypeBadge, PriorityBadge } from '../../components/ui/Badge';
 
 interface TaskDetailModalProps {
   isOpen: boolean;
@@ -582,62 +583,74 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({
           </div>
 
           {/* Priority */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-subtle)', textTransform: 'uppercase' }}>
               Priority
             </label>
-            <select
-              value={priority}
-              onChange={(e) => {
-                const newPrio = e.target.value as TaskPriority;
-                setPriority(newPrio);
-                handleUpdateTaskField('priority', newPrio);
-              }}
-              style={{
-                height: '32px',
-                padding: '0 8px',
-                backgroundColor: '#FAFBFC',
-                border: '1px solid var(--border-default)',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '12px',
-                fontWeight: 600,
-                outline: 'none',
-              }}
-            >
-              <option value="HIGHEST">🔴 Highest</option>
-              <option value="HIGH">🟠 High</option>
-              <option value="MEDIUM">🟡 Medium</option>
-              <option value="LOW">🟢 Low</option>
-            </select>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+              {(['HIGHEST', 'HIGH', 'MEDIUM', 'LOW'] as TaskPriority[]).map((prio) => {
+                const isSelected = priority === prio;
+                return (
+                  <button
+                    key={prio}
+                    type="button"
+                    onClick={() => {
+                      setPriority(prio);
+                      handleUpdateTaskField('priority', prio);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '6px 4px',
+                      borderRadius: 'var(--radius-sm)',
+                      border: isSelected ? '2px solid var(--color-primary)' : '1px solid var(--border-default)',
+                      backgroundColor: isSelected ? 'var(--color-primary-light)' : '#FAFBFC',
+                      cursor: 'pointer',
+                      transition: 'var(--transition-fast)',
+                    }}
+                  >
+                    <PriorityBadge priority={prio} showLabel size={12} />
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Issue Type */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-subtle)', textTransform: 'uppercase' }}>
               Issue Type
             </label>
-            <select
-              value={issueType}
-              onChange={(e) => {
-                const newType = e.target.value as IssueType;
-                setIssueType(newType);
-                handleUpdateTaskField('issueType', newType);
-              }}
-              style={{
-                height: '32px',
-                padding: '0 8px',
-                backgroundColor: '#FAFBFC',
-                border: '1px solid var(--border-default)',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '12px',
-                outline: 'none',
-              }}
-            >
-              <option value="TASK">📘 Task</option>
-              <option value="STORY">📗 Story</option>
-              <option value="BUG">📕 Bug</option>
-              <option value="EPIC">🟪 Epic</option>
-            </select>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+              {(['TASK', 'STORY', 'BUG', 'EPIC'] as IssueType[]).map((type) => {
+                const isSelected = issueType === type;
+                return (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => {
+                      setIssueType(type);
+                      handleUpdateTaskField('issueType', type);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '4px',
+                      padding: '6px 4px',
+                      borderRadius: 'var(--radius-sm)',
+                      border: isSelected ? '2px solid var(--color-primary)' : '1px solid var(--border-default)',
+                      backgroundColor: isSelected ? 'var(--color-primary-light)' : '#FAFBFC',
+                      cursor: 'pointer',
+                      transition: 'var(--transition-fast)',
+                    }}
+                  >
+                    <IssueTypeBadge issueType={type} showLabel size={12} />
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Story Points */}
