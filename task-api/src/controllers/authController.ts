@@ -1,7 +1,19 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { asyncHandler } from '../utils/asyncHandler';
-import { registerSchema, loginSchema, verifyOtpSchema, resendOtpSchema, googleAuthSchema, forgotPasswordSchema, resetPasswordSchema, updateProfileSchema, changePasswordSchema, updateUserRoleSchema } from '../validations/authValidation';
+import { registerSchema, loginSchema, verifyOtpSchema, resendOtpSchema, googleAuthSchema, forgotPasswordSchema, resetPasswordSchema, updateProfileSchema, changePasswordSchema, updateUserRoleSchema, refreshTokenSchema } from '../validations/authValidation';
+
+export const refreshToken = asyncHandler(async (req: Request, res: Response) => {
+  const validatedData = refreshTokenSchema.parse(req.body);
+  const result = await authService.refreshAccessToken(validatedData.refreshToken);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: 'Access token berhasil diperbarui',
+    data: result,
+  });
+});
+
 
 export const getAllUsers = asyncHandler(async (_req: Request, res: Response) => {
   const users = await authService.getAllUsers();

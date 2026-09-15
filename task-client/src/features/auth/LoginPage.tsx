@@ -49,7 +49,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
         }
 
         showToast('Login berhasil! Selamat datang kembali.', 'success');
-        login(res.data.token, res.data.user);
+        login(res.data.token, res.data.user, res.data.refreshToken);
       }
     } catch (err: any) {
       if (err.message && err.message.toLowerCase().includes('verifikasi')) {

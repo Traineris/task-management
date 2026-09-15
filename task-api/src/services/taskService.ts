@@ -6,6 +6,7 @@ import * as projectRepository from '../repositories/projectRepository';
 import * as commentRepository from '../repositories/commentRepository';
 import * as activityRepository from '../repositories/activityRepository';
 import * as attachmentRepository from '../repositories/attachmentRepository';
+import * as notificationRepository from '../repositories/notificationRepository';
 import { CreateTaskInput, UpdateTaskInput, ReorderTaskInput } from '../validations/taskValidation';
 import { CustomError } from '../utils/customError';
 
@@ -47,7 +48,20 @@ export const createTask = async (userId: string, userRole: string, input: Create
   const maxPos = await taskRepository.getMaxPositionInStatus(input.projectId, input.status || 'TODO');
   const newPosition = maxPos + 1000;
 
-  return taskRepository.createTask(userId, input, newPosition);
+  const newTask = await taskRepository.createTask(userId, input, newPosition);
+
+  // Notifikasi otomatis penugasan anggota
+  if (input.assigneeId && input.assigneeId !== userId) {
+    await notificationRepository.createNotification({
+      userId: input.assigneeId,
+      title: 'Penugasan Task Baru',
+      message: `Anda telah ditugaskan pada task baru: "${newTask.title}"`,
+      type: 'ASSIGNMENT',
+      link: `/tasks/${newTask._id}`,
+    }).catch(() => null);
+  }
+
+  return newTask;
 };
 
 export const updateTask = async (
@@ -62,7 +76,39 @@ export const updateTask = async (
   }
 
   await checkProjectAccess(task.projectId._id.toString(), userId, userRole);
-  return taskRepository.updateTask(id, input);
+  const updatedTask = await taskRepository.updateTask(id, input);
+
+  // Notifikasi penugasan ulang
+  const prevAssigneeId = (task.assigneeId as any)?._id?.toString() || (task.assigneeId as any)?.toString();
+  if (input.assigneeId && input.assigneeId !== prevAssigneeId && input.assigneeId !== userId) {
+    await notificationRepository.createNotification({
+      userId: input.assigneeId,
+      title: 'Penugasan Task',
+      message: `Anda ditugaskan pada task "${task.title}"`,
+      type: 'ASSIGNMENT',
+      link: `/tasks/${id}`,
+    }).catch(() => null);
+  }
+
+  // Notifikasi perpindahan status task
+  if (input.status && input.status !== task.status) {
+    const notifyRecipients = new Set<string>();
+    const reporterId = (task.reporterId as any)?._id?.toString() || (task.reporterId as any)?.toString();
+    if (prevAssigneeId && prevAssigneeId !== userId) notifyRecipients.add(prevAssigneeId);
+    if (reporterId && reporterId !== userId) notifyRecipients.add(reporterId);
+
+    for (const recipientId of notifyRecipients) {
+      await notificationRepository.createNotification({
+        userId: recipientId,
+        title: 'Status Task Berubah',
+        message: `Status task "${task.title}" diubah menjadi ${input.status}`,
+        type: 'STATUS_CHANGE',
+        link: `/tasks/${id}`,
+      }).catch(() => null);
+    }
+  }
+
+  return updatedTask;
 };
 
 export const reorderTask = async (
@@ -77,7 +123,28 @@ export const reorderTask = async (
   }
 
   await checkProjectAccess(task.projectId._id.toString(), userId, userRole);
-  return taskRepository.updateTaskPositionAndStatus(id, input.status, input.position);
+  const reordered = await taskRepository.updateTaskPositionAndStatus(id, input.status, input.position);
+
+  // Notifikasi saat status berpindah via drag & drop Kanban
+  if (input.status && input.status !== task.status) {
+    const notifyRecipients = new Set<string>();
+    const assigneeId = (task.assigneeId as any)?._id?.toString() || (task.assigneeId as any)?.toString();
+    const reporterId = (task.reporterId as any)?._id?.toString() || (task.reporterId as any)?.toString();
+    if (assigneeId && assigneeId !== userId) notifyRecipients.add(assigneeId);
+    if (reporterId && reporterId !== userId) notifyRecipients.add(reporterId);
+
+    for (const recipientId of notifyRecipients) {
+      await notificationRepository.createNotification({
+        userId: recipientId,
+        title: 'Status Task Berubah (Kanban)',
+        message: `Task "${task.title}" dipindahkan ke kolom ${input.status}`,
+        type: 'STATUS_CHANGE',
+        link: `/tasks/${id}`,
+      }).catch(() => null);
+    }
+  }
+
+  return reordered;
 };
 
 export const deleteTask = async (id: string, userId: string, userRole: string) => {

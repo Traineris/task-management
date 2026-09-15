@@ -11,9 +11,49 @@ import { sendOtpEmail } from './emailService';
 
 const googleClient = new OAuth2Client();
 
+const generateTokens = (userId: string, email: string, role: string = 'USER', tokenVersion: number = 0) => {
+  const token = jwt.sign({ id: userId, email, role, tokenVersion }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
+  const refreshToken = jwt.sign({ id: userId, tokenVersion, type: 'refresh' }, env.JWT_SECRET, { expiresIn: '7d' });
+  return { token, refreshToken };
+};
+
 const generateToken = (userId: string, email: string, role: string = 'USER', tokenVersion: number = 0): string => {
   return jwt.sign({ id: userId, email, role, tokenVersion }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
 };
+
+export const refreshAccessToken = async (refreshTokenInput: string) => {
+  try {
+    const decoded = jwt.verify(refreshTokenInput, env.JWT_SECRET) as {
+      id: string;
+      tokenVersion?: number;
+      type?: string;
+    };
+
+    if (decoded.type !== 'refresh') {
+      throw new CustomError('Tipe token tidak valid', StatusCodes.UNAUTHORIZED);
+    }
+
+    const user = await authRepository.findUserById(decoded.id);
+    if (!user) {
+      throw new CustomError('User tidak ditemukan', StatusCodes.UNAUTHORIZED);
+    }
+
+    if (decoded.tokenVersion !== undefined && decoded.tokenVersion !== user.tokenVersion) {
+      throw new CustomError('Sesi telah dibatalkan, silakan login kembali', StatusCodes.UNAUTHORIZED);
+    }
+
+    return generateTokens(
+      user._id.toString(),
+      user.email,
+      user.role || 'USER',
+      user.tokenVersion || 0
+    );
+  } catch (err: any) {
+    if (err instanceof CustomError) throw err;
+    throw new CustomError('Refresh token tidak valid atau telah kadaluarsa', StatusCodes.UNAUTHORIZED);
+  }
+};
+
 
 export const hashOtp = (code: string): string => {
   return crypto.createHash('sha256').update(code).digest('hex');
@@ -74,7 +114,7 @@ export const login = async (input: LoginInput) => {
     throw new CustomError('Akun Anda belum diverifikasi. Silakan verifikasi kode OTP terlebih dahulu.', StatusCodes.FORBIDDEN);
   }
 
-  const token = generateToken(user._id.toString(), user.email, user.role || 'USER', user.tokenVersion || 0);
+  const { token, refreshToken } = generateTokens(user._id.toString(), user.email, user.role || 'USER', user.tokenVersion || 0);
 
   return {
     user: {
@@ -86,6 +126,7 @@ export const login = async (input: LoginInput) => {
       role: user.role,
     },
     token,
+    refreshToken,
   };
 };
 
@@ -111,11 +152,12 @@ export const verifyOtp = async (input: VerifyOtpInput) => {
   }
 
   const updatedUser = await authRepository.setVerified(user._id.toString());
-  const token = generateToken(user._id.toString(), user.email, updatedUser?.role || 'USER', user.tokenVersion || 0);
+  const { token, refreshToken } = generateTokens(user._id.toString(), user.email, updatedUser?.role || 'USER', user.tokenVersion || 0);
 
   return {
     user: updatedUser,
     token,
+    refreshToken,
   };
 };
 
@@ -165,7 +207,7 @@ export const googleAuth = async (input: GoogleAuthInput) => {
     avatar: payload.picture,
   });
 
-  const token = generateToken(user._id.toString(), user.email, user.role || 'USER', user.tokenVersion || 0);
+  const { token, refreshToken } = generateTokens(user._id.toString(), user.email, user.role || 'USER', user.tokenVersion || 0);
 
   return {
     user: {
@@ -177,6 +219,7 @@ export const googleAuth = async (input: GoogleAuthInput) => {
       role: user.role,
     },
     token,
+    refreshToken,
   };
 };
 

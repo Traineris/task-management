@@ -3,6 +3,7 @@ import * as commentRepository from '../repositories/commentRepository';
 import * as taskRepository from '../repositories/taskRepository';
 import * as activityRepository from '../repositories/activityRepository';
 import * as projectRepository from '../repositories/projectRepository';
+import * as notificationRepository from '../repositories/notificationRepository';
 import { CreateCommentInput } from '../validations/commentValidation';
 import { CustomError } from '../utils/customError';
 
@@ -39,7 +40,7 @@ export const createComment = async (
   userRole: string,
   input: CreateCommentInput
 ) => {
-  await checkTaskAndProjectAccess(taskId, userId, userRole);
+  const { task } = await checkTaskAndProjectAccess(taskId, userId, userRole);
 
   const comment = await commentRepository.createComment(taskId, userId, input.content);
 
@@ -50,6 +51,24 @@ export const createComment = async (
     'COMMENTED',
     `menambahkan komentar baru: "${input.content.slice(0, 50)}${input.content.length > 50 ? '...' : ''}"`
   );
+
+  // Kirim notifikasi otomatis ke Assignee & Reporter task
+  const recipients = new Set<string>();
+  const assigneeId = (task.assigneeId as any)?._id?.toString() || (task.assigneeId as any)?.toString();
+  const reporterId = (task.reporterId as any)?._id?.toString() || (task.reporterId as any)?.toString();
+
+  if (assigneeId && assigneeId !== userId) recipients.add(assigneeId);
+  if (reporterId && reporterId !== userId) recipients.add(reporterId);
+
+  for (const recipientId of recipients) {
+    await notificationRepository.createNotification({
+      userId: recipientId,
+      title: 'Komentar Baru',
+      message: `Ada komentar baru pada task "${task.title}"`,
+      type: 'COMMENT',
+      link: `/tasks/${taskId}`,
+    }).catch(() => null);
+  }
 
   return comment;
 };

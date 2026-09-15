@@ -50,6 +50,10 @@ export const updateUserRoleSchema = z.object({
   role: z.enum(['USER', 'ADMIN']),
 });
 
+export const refreshTokenSchema = z.object({
+  refreshToken: z.string().min(1, 'Refresh token wajib diisi'),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type VerifyOtpInput = z.infer<typeof verifyOtpSchema>;
@@ -60,4 +64,6 @@ export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
 export type UpdateUserRoleInput = z.infer<typeof updateUserRoleSchema>;
+export type RefreshTokenInput = z.infer<typeof refreshTokenSchema>;
+
 

@@ -17,6 +17,7 @@ router.get('/me', authenticateToken, authController.getProfile);
 router.patch('/profile', authenticateToken, authController.updateProfile);
 router.patch('/change-password', authenticateToken, authController.changePassword);
 router.post('/logout', authenticateToken, authController.logout);
+router.post('/refresh-token', authController.refreshToken);
 
 // Admin Only Routes
 router.get('/users', authenticateToken, authorizeRoles('ADMIN'), authController.getAllUsers);

@@ -40,7 +40,7 @@ export const OtpModal: React.FC<OtpModalProps> = ({
       const res = await api.post('/auth/verify-otp', { email, code });
       if (res.success && res.data) {
         showToast('Verifikasi email berhasil! Selamat datang.', 'success');
-        login(res.data.token, res.data.user);
+        login(res.data.token, res.data.user, res.data.refreshToken);
         onClose();
         if (onSuccess) onSuccess();
       }

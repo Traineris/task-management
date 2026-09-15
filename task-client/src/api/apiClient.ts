@@ -33,9 +33,36 @@ class ApiClient {
     const data = await response.json();
 
     if (!response.ok) {
-      // Jika token expired atau invalidasi sesi (401 Unauthorized), auto-logout
-      if (response.status === 401 && !endpoint.includes('/auth/login')) {
+      // Jika token expired (401 Unauthorized), coba silent refresh token secara otomatis
+      if (
+        response.status === 401 &&
+        !endpoint.includes('/auth/login') &&
+        !endpoint.includes('/auth/refresh-token')
+      ) {
+        const refreshToken = localStorage.getItem('task_refresh_token');
+        if (refreshToken) {
+          try {
+            const refreshRes = await fetch(`${BASE_URL}/auth/refresh-token`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ refreshToken }),
+            });
+            const refreshData = await refreshRes.json();
+            if (refreshRes.ok && refreshData.success && refreshData.data?.token) {
+              localStorage.setItem('task_token', refreshData.data.token);
+              if (refreshData.data.refreshToken) {
+                localStorage.setItem('task_refresh_token', refreshData.data.refreshToken);
+              }
+              // Ulangi request dengan access token baru
+              return this.request<T>(endpoint, options);
+            }
+          } catch {
+            // Lanjut ke auto-logout jika refresh gagal
+          }
+        }
+
         localStorage.removeItem('task_token');
+        localStorage.removeItem('task_refresh_token');
         localStorage.removeItem('task_user');
         window.dispatchEvent(new Event('auth:unauthorized'));
       }

@@ -8,7 +8,7 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (token: string, user: User) => void;
+  login: (token: string, user: User, refreshToken?: string) => void;
   logout: () => Promise<void>;
   updateUser: (updatedUser: User) => void;
   refreshProfile: () => Promise<void>;
@@ -27,8 +27,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { showToast } = useToast();
 
-  const login = (newToken: string, newUser: User) => {
+  const login = (newToken: string, newUser: User, refreshToken?: string) => {
     localStorage.setItem('task_token', newToken);
+    if (refreshToken) {
+      localStorage.setItem('task_refresh_token', refreshToken);
+    }
     localStorage.setItem('task_user', JSON.stringify(newUser));
     setToken(newToken);
     setUser(newUser);
@@ -43,6 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Abaikan error jaringan saat logout
     } finally {
       localStorage.removeItem('task_token');
+      localStorage.removeItem('task_refresh_token');
       localStorage.removeItem('task_user');
       localStorage.removeItem('task_active_project');
       setToken(null);
