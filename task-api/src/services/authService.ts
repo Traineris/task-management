@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { OAuth2Client } from 'google-auth-library';
 import { StatusCodes } from 'http-status-codes';
 import * as authRepository from '../repositories/authRepository';
@@ -14,8 +15,12 @@ const generateToken = (userId: string, email: string, role: string = 'USER', tok
   return jwt.sign({ id: userId, email, role, tokenVersion }, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
 };
 
+export const hashOtp = (code: string): string => {
+  return crypto.createHash('sha256').update(code).digest('hex');
+};
+
 const generateOtp = (): { code: string; expiresAt: Date } => {
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const code = crypto.randomInt(100000, 1000000).toString();
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
   return { code, expiresAt };
 };
@@ -30,12 +35,13 @@ export const register = async (input: RegisterInput) => {
 
   const hashedPassword = await bcrypt.hash(input.password, 10);
   const { code, expiresAt } = generateOtp();
+  const hashedOtp = hashOtp(code);
 
   const newUser = await authRepository.createUser({
     ...input,
     email,
     password: hashedPassword,
-    otpCode: code,
+    otpCode: hashedOtp,
     otpExpiresAt: expiresAt,
   });
 
@@ -95,7 +101,8 @@ export const verifyOtp = async (input: VerifyOtpInput) => {
     throw new CustomError('Akun sudah terverifikasi', StatusCodes.BAD_REQUEST);
   }
 
-  if (!user.otpCode || user.otpCode !== input.code) {
+  const hashedInput = hashOtp(input.code);
+  if (!user.otpCode || user.otpCode !== hashedInput) {
     throw new CustomError('Kode OTP tidak valid', StatusCodes.BAD_REQUEST);
   }
 
@@ -125,7 +132,8 @@ export const sendOtp = async (input: ResendOtpInput) => {
   }
 
   const { code, expiresAt } = generateOtp();
-  await authRepository.updateOtp(user._id.toString(), code, expiresAt);
+  const hashedOtp = hashOtp(code);
+  await authRepository.updateOtp(user._id.toString(), hashedOtp, expiresAt);
 
   // Pengiriman Email Asli
   await sendOtpEmail(email, code);
@@ -181,12 +189,13 @@ export const forgotPassword = async (input: ForgotPasswordInput) => {
   }
 
   const { code, expiresAt } = generateOtp();
-  await authRepository.updateOtp(user._id.toString(), code, expiresAt);
+  const hashedOtp = hashOtp(code);
+  await authRepository.updateOtp(user._id.toString(), hashedOtp, expiresAt);
   await sendOtpEmail(email, code);
 
   return {
     message: 'Kode OTP reset password berhasil dikirim',
-    debugOtpCode: process.env.NODE_ENV === 'development' ? code : undefined,
+    debugOtpCode: (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') ? code : undefined,
   };
 };
 
@@ -198,7 +207,8 @@ export const resetPassword = async (input: ResetPasswordInput) => {
     throw new CustomError('User tidak ditemukan', StatusCodes.NOT_FOUND);
   }
 
-  if (!user.otpCode || user.otpCode !== input.code) {
+  const hashedInput = hashOtp(input.code);
+  if (!user.otpCode || user.otpCode !== hashedInput) {
     throw new CustomError('Kode OTP tidak valid', StatusCodes.BAD_REQUEST);
   }
 

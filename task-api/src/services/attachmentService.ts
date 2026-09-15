@@ -80,11 +80,9 @@ export const deleteAttachment = async (id: string, userId: string, userRole: str
     throw new CustomError('Akses ditolak. Hanya pengunggah lampiran, Lead Project, atau ADMIN yang dapat menghapus lampiran.', StatusCodes.FORBIDDEN);
   }
 
-  // Hapus file fisik dari direktori uploads
+  // Hapus file fisik dari direktori uploads secara asynchronous
   const filePath = path.join(process.cwd(), 'uploads', path.basename(attachment.url));
-  if (fs.existsSync(filePath)) {
-    fs.unlinkSync(filePath);
-  }
+  await fs.promises.unlink(filePath).catch(() => null);
 
   await attachmentRepository.deleteAttachment(id);
   return { message: 'Lampiran file berhasil dihapus' };

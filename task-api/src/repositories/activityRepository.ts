@@ -21,3 +21,8 @@ export const createActivity = async (
     details,
   });
 };
+
+export const deleteActivitiesByTaskId = async (taskId: string): Promise<void> => {
+  await ActivityModel.deleteMany({ taskId });
+};
+

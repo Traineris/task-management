@@ -29,3 +29,8 @@ export const createComment = async (
 export const deleteComment = async (id: string): Promise<IComment | null> => {
   return CommentModel.findByIdAndDelete(id);
 };
+
+export const deleteCommentsByTaskId = async (taskId: string): Promise<void> => {
+  await CommentModel.deleteMany({ taskId });
+};
+

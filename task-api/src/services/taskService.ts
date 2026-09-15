@@ -1,6 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
+import fs from 'fs/promises';
+import path from 'path';
 import * as taskRepository from '../repositories/taskRepository';
 import * as projectRepository from '../repositories/projectRepository';
+import * as commentRepository from '../repositories/commentRepository';
+import * as activityRepository from '../repositories/activityRepository';
+import * as attachmentRepository from '../repositories/attachmentRepository';
 import { CreateTaskInput, UpdateTaskInput, ReorderTaskInput } from '../validations/taskValidation';
 import { CustomError } from '../utils/customError';
 
@@ -91,6 +96,21 @@ export const deleteTask = async (id: string, userId: string, userRole: string) =
     throw new CustomError('Akses ditolak. Hanya pembuat task, Lead Project, atau ADMIN yang dapat menghapus task.', StatusCodes.FORBIDDEN);
   }
 
-  await taskRepository.deleteTask(id);
-  return { message: 'Task berhasil dihapus' };
+  // 1. Ambil seluruh lampiran file terkait untuk dihapus fisiknya dari disk
+  const attachments = await attachmentRepository.findAttachmentsByTaskId(id);
+  for (const att of attachments) {
+    const filePath = path.join(process.cwd(), 'uploads', path.basename(att.url));
+    await fs.unlink(filePath).catch(() => null);
+  }
+
+  // 2. Bersihkan seluruh relasi (lampiran, komentar, aktivitas, subtask) dan task utama
+  await Promise.all([
+    attachmentRepository.deleteAttachmentsByTaskId(id),
+    commentRepository.deleteCommentsByTaskId(id),
+    activityRepository.deleteActivitiesByTaskId(id),
+    taskRepository.deleteSubtasksByParentId(id),
+    taskRepository.deleteTask(id),
+  ]);
+
+  return { message: 'Task dan seluruh data terkait berhasil dihapus' };
 };

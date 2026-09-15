@@ -27,3 +27,8 @@ export const createAttachment = async (data: {
 export const deleteAttachment = async (id: string): Promise<IAttachment | null> => {
   return AttachmentModel.findByIdAndDelete(id);
 };
+
+export const deleteAttachmentsByTaskId = async (taskId: string): Promise<void> => {
+  await AttachmentModel.deleteMany({ taskId });
+};
+

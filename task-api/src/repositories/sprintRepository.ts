@@ -24,3 +24,8 @@ export const updateSprint = async (id: string, data: UpdateSprintInput): Promise
 export const deleteSprint = async (id: string): Promise<ISprint | null> => {
   return SprintModel.findByIdAndDelete(id);
 };
+
+export const deleteSprintsByProjectId = async (projectId: string): Promise<void> => {
+  await SprintModel.deleteMany({ projectId });
+};
+

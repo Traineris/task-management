@@ -1,5 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
+import fs from 'fs/promises';
+import path from 'path';
 import * as projectRepository from '../repositories/projectRepository';
+import * as taskRepository from '../repositories/taskRepository';
+import * as commentRepository from '../repositories/commentRepository';
+import * as activityRepository from '../repositories/activityRepository';
+import * as attachmentRepository from '../repositories/attachmentRepository';
+import * as sprintRepository from '../repositories/sprintRepository';
 import { CreateProjectInput, UpdateProjectInput } from '../validations/projectValidation';
 import { CustomError } from '../utils/customError';
 
@@ -64,6 +71,29 @@ export const deleteProject = async (id: string, userId: string, userRole: string
     throw new CustomError('Akses ditolak. Hanya Lead Project atau ADMIN yang dapat menghapus project.', StatusCodes.FORBIDDEN);
   }
 
-  await projectRepository.deleteProject(id);
-  return { message: 'Project berhasil dihapus' };
+  // 1. Ambil seluruh task di dalam project untuk membersihkan relasinya
+  const projectTasks = await taskRepository.findTasksByProjectId(id);
+  for (const task of projectTasks) {
+    const taskId = task._id.toString();
+    const attachments = await attachmentRepository.findAttachmentsByTaskId(taskId);
+    for (const att of attachments) {
+      const filePath = path.join(process.cwd(), 'uploads', path.basename(att.url));
+      await fs.unlink(filePath).catch(() => null);
+    }
+    await Promise.all([
+      attachmentRepository.deleteAttachmentsByTaskId(taskId),
+      commentRepository.deleteCommentsByTaskId(taskId),
+      activityRepository.deleteActivitiesByTaskId(taskId),
+      taskRepository.deleteSubtasksByParentId(taskId),
+    ]);
+  }
+
+  // 2. Hapus seluruh task, sprint, dan project
+  await Promise.all([
+    taskRepository.deleteTasksByProjectId(id),
+    sprintRepository.deleteSprintsByProjectId(id),
+    projectRepository.deleteProject(id),
+  ]);
+
+  return { message: 'Project dan seluruh data terkait berhasil dihapus' };
 };

@@ -29,8 +29,25 @@ app.use(helmet());
 app.use(cors({ origin: env.CLIENT_URL }));
 app.use(express.json());
 
-// Serving Uploaded Static Files
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+// Serving Uploaded Static Files with Anti-XSS & Anti-Sniffing Headers
+app.use(
+  '/uploads',
+  (_req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Content-Security-Policy', "default-src 'none'");
+    next();
+  },
+  express.static(path.join(process.cwd(), 'uploads'), {
+    dotfiles: 'deny',
+    setHeaders: (res, filePath) => {
+      const ext = path.extname(filePath).toLowerCase();
+      const safeInlineImages = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+      if (!safeInlineImages.includes(ext)) {
+        res.setHeader('Content-Disposition', 'attachment');
+      }
+    },
+  })
+);
 
 // DDoS Protection & Rate Limiting (Relaxed for development & SPA data fetching)
 const limiter = rateLimit({

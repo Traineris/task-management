@@ -79,6 +79,13 @@ export const updateUserRole = async (userId: string, role: 'USER' | 'ADMIN'): Pr
   return UserModel.findByIdAndUpdate(userId, { role }, { new: true }).select('-password -otpCode -otpExpiresAt');
 };
 
+export const findUserTokenVersionAndRole = async (
+  userId: string
+): Promise<{ tokenVersion: number; role: 'USER' | 'ADMIN' } | null> => {
+  return UserModel.findById(userId).select('tokenVersion role').lean();
+};
+
+
 
 
 

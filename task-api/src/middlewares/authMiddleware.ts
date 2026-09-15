@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
 import { CustomError } from '../utils/customError';
 import { env } from '../config/env.config';
-import { UserModel } from '../models/userModel';
+import * as authRepository from '../repositories/authRepository';
 
 export interface AuthRequest extends Request {
   user?: {
@@ -25,7 +25,7 @@ export const authenticateToken = async (req: AuthRequest, _res: Response, next: 
   try {
     const decoded = jwt.verify(token, env.JWT_SECRET) as { id: string; email: string; role: string; tokenVersion?: number };
 
-    const user = await UserModel.findById(decoded.id).select('tokenVersion role');
+    const user = await authRepository.findUserTokenVersionAndRole(decoded.id);
     if (!user || (decoded.tokenVersion !== undefined && decoded.tokenVersion !== user.tokenVersion)) {
       return next(new CustomError('Sesi telah berakhir (logout), silakan login kembali', StatusCodes.UNAUTHORIZED));
     }

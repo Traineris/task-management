@@ -74,3 +74,12 @@ export const updateTaskPositionAndStatus = async (
     .populate('assigneeId', SENSITIVE_USER_FIELDS)
     .populate('reporterId', SENSITIVE_USER_FIELDS);
 };
+
+export const deleteSubtasksByParentId = async (parentTaskId: string): Promise<void> => {
+  await TaskModel.deleteMany({ parentTaskId });
+};
+
+export const deleteTasksByProjectId = async (projectId: string): Promise<void> => {
+  await TaskModel.deleteMany({ projectId });
+};
+
