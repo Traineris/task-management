@@ -10,6 +10,7 @@ import { api } from '../../api/apiClient';
 import {
   ShieldCheck,
   Crown,
+  Laptop,
   UserPlus,
   Trash2,
   Lock,
@@ -136,7 +137,7 @@ export const ProjectMembersModal: React.FC<ProjectMembersModalProps> = ({ isOpen
           <Info size={18} color="var(--color-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
           <div>
             <div style={{ fontWeight: 700, color: 'var(--text-heading)', marginBottom: '2px' }}>
-              Status Hak Akses Anda: {isCurrentUserAdmin ? '🛡️ Administrator Workspace' : isCurrentUserLead ? '👑 Project Lead' : '💻 Team Member'}
+              Status Hak Akses Anda: {isCurrentUserAdmin ? 'Administrator Workspace' : isCurrentUserLead ? 'Project Lead' : 'Team Member'}
             </div>
             <div style={{ color: 'var(--text-subtle)', lineHeight: 1.4 }}>
               {canManageMembers
@@ -292,15 +293,15 @@ export const ProjectMembersModal: React.FC<ProjectMembersModalProps> = ({ isOpen
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', fontSize: '11px' }}>
             <div style={{ padding: '8px 10px', backgroundColor: '#F8FAFC', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }}>
-              <div style={{ fontWeight: 700, color: '#DC2626', marginBottom: '2px' }}>🛡️ ADMIN</div>
+              <div style={{ fontWeight: 700, color: '#DC2626', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '5px' }}><ShieldCheck size={12} /> ADMIN</div>
               <div style={{ color: 'var(--text-subtle)' }}>Bisa melihat & mengelola semua project, user, dan setelan workspace.</div>
             </div>
             <div style={{ padding: '8px 10px', backgroundColor: '#F8FAFC', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }}>
-              <div style={{ fontWeight: 700, color: 'var(--color-primary)', marginBottom: '2px' }}>👑 PROJECT LEAD</div>
+              <div style={{ fontWeight: 700, color: 'var(--color-primary)', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '5px' }}><Crown size={12} /> PROJECT LEAD</div>
               <div style={{ color: 'var(--text-subtle)' }}>Kelola sprint, atur anggota tim, dan edit data proyek ini.</div>
             </div>
             <div style={{ padding: '8px 10px', backgroundColor: '#F8FAFC', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)' }}>
-              <div style={{ fontWeight: 700, color: 'var(--text-heading)', marginBottom: '2px' }}>💻 MEMBER</div>
+              <div style={{ fontWeight: 700, color: 'var(--text-heading)', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '5px' }}><Laptop size={12} /> MEMBER</div>
               <div style={{ color: 'var(--text-subtle)' }}>Buat issue, geser kartu board, beri komentar, dan upload berkas.</div>
             </div>
           </div>

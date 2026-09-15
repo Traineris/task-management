@@ -153,8 +153,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onSwitchToRegister }) => {
           style={{
             width: '100%',
             marginTop: '6px',
-            background: 'linear-gradient(135deg, var(--color-primary) 0%, #424C8C 100%)',
-            boxShadow: '0 4px 12px rgba(82, 94, 167, 0.25)',
+            boxShadow: 'var(--shadow-md)',
           }}
           rightIcon={<ArrowRight size={16} />}
         >

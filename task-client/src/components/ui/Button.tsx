@@ -33,7 +33,7 @@ export const Button: React.FC<ButtonProps> = ({
         };
       case 'secondary':
         return {
-          backgroundColor: '#EBECF0',
+          backgroundColor: 'var(--bg-neutral)',
           color: 'var(--text-heading)',
           border: 'none',
         };
@@ -99,7 +99,7 @@ export const Button: React.FC<ButtonProps> = ({
       onMouseEnter={(e) => {
         if (!disabled && !isLoading) {
           if (variant === 'primary') e.currentTarget.style.backgroundColor = 'var(--color-primary-hover)';
-          if (variant === 'secondary') e.currentTarget.style.backgroundColor = '#DFE1E6';
+          if (variant === 'secondary') e.currentTarget.style.backgroundColor = 'var(--bg-neutral-hover)';
           if (variant === 'subtle') e.currentTarget.style.backgroundColor = 'var(--bg-surface-hover)';
         }
       }}

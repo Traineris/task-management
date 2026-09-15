@@ -75,7 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               width: '34px',
               height: '34px',
               borderRadius: 'var(--radius-sm)',
-              background: 'linear-gradient(135deg, #0084FF 0%, #2563EB 50%, #7C3AED 100%)',
+              background: 'var(--gradient-workflow)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -83,7 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               fontWeight: 800,
               fontSize: '12px',
               letterSpacing: '0.04em',
-              boxShadow: '0 2px 4px rgba(37, 99, 235, 0.25)',
+              boxShadow: 'var(--shadow-sm)',
               flexShrink: 0,
               cursor: 'pointer',
             }}

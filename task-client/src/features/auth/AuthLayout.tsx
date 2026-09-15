@@ -8,6 +8,7 @@ import {
   ChevronRight,
   ShieldCheck,
 } from 'lucide-react';
+import { Zap } from 'lucide-react';
 import { Avatar } from '../../components/ui/Avatar';
 
 interface AuthLayoutProps {
@@ -85,7 +86,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
         <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px' }}>
             <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-heading)' }}>Status Kinerja Sprint</span>
-            <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-success)' }}>Efisiensi Tinggi ⚡</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-success)', display: 'inline-flex', alignItems: 'center', gap: '3px' }}><Zap size={11} fill="currentColor" /> Efisiensi Tinggi</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>

@@ -23,6 +23,10 @@
   /* Columns */
   --bg-column: #F1F5F9;
   --bg-column-header: #E2E8F0;
+
+  /* Neutral (secondary button, placeholder surfaces) */
+  --bg-neutral: #EBECF0;
+  --bg-neutral-hover: #DFE1E6;
   
   /* Borders */
   --border-subtle: #F1F5F9;
@@ -41,6 +45,7 @@
   /* Brand Colors */
   --color-primary: #525EA7;
   --color-primary-hover: #434D8A;
+  --color-primary-dark: #424C8C;
   --color-primary-light: #EEF0F9;
   --color-primary-border: #C4CAE8;
   
@@ -114,8 +119,8 @@
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition-fast: all 0.12s ease-in-out;
-  --transition-normal: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: background-color 0.12s ease-in-out, color 0.12s ease-in-out, border-color 0.12s ease-in-out, box-shadow 0.12s ease-in-out;
+  --transition-normal: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Global Reset & Typography */
@@ -312,6 +317,22 @@ h1, h2, h3, h4, h5, h6 {
 button:not(:disabled):active {
   transform: scale(0.98);
   transition: transform 0.08s ease;
+}
+
+/* Keyboard Focus Ring — global, token-based */
+:focus-visible {
+  outline: 2px solid var(--color-primary) !important;
+  outline-offset: 2px !important;
+  border-radius: var(--radius-xs);
+}
+
+/* Hormati preferensi user: matikan animasi non-esensial */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Selection */

@@ -348,10 +348,10 @@ export const KanbanBoard: React.FC<{ isCreateTaskOpen: boolean; setIsCreateTaskO
             }}
           >
             <option value="">Semua Prioritas</option>
-            <option value="HIGHEST">🔴 Highest</option>
-            <option value="HIGH">🟠 High</option>
-            <option value="MEDIUM">🟡 Medium</option>
-            <option value="LOW">🟢 Low</option>
+            <option value="HIGHEST">Highest</option>
+            <option value="HIGH">High</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="LOW">Low</option>
           </select>
 
           {/* Clear Filters Button */}

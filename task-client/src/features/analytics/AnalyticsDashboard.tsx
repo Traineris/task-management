@@ -198,7 +198,7 @@ export const AnalyticsDashboard: React.FC = () => {
 
           {activeSprint.goal && (
             <div style={{ fontSize: '12px', color: 'var(--text-subtle)', backgroundColor: '#FAFBFC', padding: '8px 12px', borderRadius: 'var(--radius-sm)' }}>
-              🎯 <strong>Sprint Goal:</strong> {activeSprint.goal}
+              <Target size={12} style={{ display: 'inline', verticalAlign: '-1px', marginRight: '4px' }} /><strong>Sprint Goal:</strong> {activeSprint.goal}
             </div>
           )}
 
