@@ -36,6 +36,6 @@ export const authenticateToken = async (req: AuthRequest, _res: Response, next: 
     };
     next();
   } catch (error) {
-    return next(new CustomError('Token tidak valid atau telah kadaluarsa', StatusCodes.FORBIDDEN));
+    return next(new CustomError('Token tidak valid atau telah kadaluarsa', StatusCodes.UNAUTHORIZED));
   }
 };

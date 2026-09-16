@@ -23,12 +23,17 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const showToast = useCallback((message: string, type: ToastType = 'info') => {
-    const id = Math.random().toString(36).substring(2, 9);
-    setToasts((prev) => [...prev, { id, message, type }]);
-
-    setTimeout(() => {
-      removeToast(id);
-    }, 4000);
+    // Anti-Spam / Deduplikasi: Abaikan jika pesan yang sama sudah tampil
+    setToasts((prev) => {
+      if (prev.some((t) => t.message === message)) {
+        return prev;
+      }
+      const id = Math.random().toString(36).substring(2, 9);
+      setTimeout(() => {
+        removeToast(id);
+      }, 4000);
+      return [...prev, { id, message, type }];
+    });
   }, [removeToast]);
 
   const getToastIcon = (type: ToastType) => {
